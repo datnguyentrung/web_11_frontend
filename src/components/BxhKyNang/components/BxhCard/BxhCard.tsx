@@ -48,7 +48,7 @@ export default function BxhCard({ player, isTopThree = false }: BxhCardProps) {
                     <div className="bxh-card__stat">
                         <div className="bxh-card__stat-icon">🏆</div>
                         <div className="bxh-card__stat-content">
-                            <span className="bxh-card__stat-label">Số lần</span>
+                            <span className="bxh-card__stat-label">Số lần chạy rút gối</span>
                             <span className="bxh-card__stat-value bxh-card__stat-value--primary">
                                 {player.count.toLocaleString()}
                             </span>
