@@ -4,7 +4,7 @@ import type { TheLuc } from '../types/bxh';
 
 export const loadThelucData = async (): Promise<TheLuc[]> => {
     try {
-        const response = await fetch('/src/database/theluc.csv');
+        const response = await fetch('/data/theluc.csv');
         const csvText = await response.text();
 
         return new Promise((resolve, reject) => {

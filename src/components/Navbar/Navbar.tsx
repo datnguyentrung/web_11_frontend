@@ -13,7 +13,7 @@ export default function Navbar({ title = "Hệ Thống Taekwondo Văn Quán" }: 
             <div className="navbar__container">
                 <div className="navbar__logo">
                     <div className="navbar__logo-icon">
-                        <img src="/public/taekwondo.jpg" alt="Taekwondo Logo" />
+                        <img src="/taekwondo.jpg" alt="Taekwondo Logo" />
                     </div>
                     <span className="navbar__logo-text">Taekwondo</span>
                 </div>

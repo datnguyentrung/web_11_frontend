@@ -4,7 +4,7 @@ import type { Bxh } from '../types/bxh';
 
 export const loadBxhData = async (): Promise<Bxh[]> => {
     try {
-        const response = await fetch('/src/database/bxh.csv');
+        const response = await fetch('/data/bxh.csv');
         const csvText = await response.text();
 
         return new Promise((resolve, reject) => {
