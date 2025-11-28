@@ -15,24 +15,27 @@
 }
 
 .navbar-spacer {
-  height: 70px;
+  height: 60px;
 }
 
 .app__main {
   position: relative;
   z-index: 1;
+  display: flex;
+  justify-content: center;
+  gap: 5rem;
 }
 
 /* Responsive navbar spacer */
 @media (min-width: 640px) {
   .navbar-spacer {
-    height: 80px;
+    height: 65px;
   }
 }
 
 @media (min-width: 768px) {
   .navbar-spacer {
-    height: 90px;
+    height: 70px;
   }
 }
 

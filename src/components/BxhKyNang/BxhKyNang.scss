@@ -1,8 +1,9 @@
-@import './styles/variables';
-@import './styles/mixins';
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
 
 .bxh-kynang {
     min-height: 100vh;
+    width: 70%;
     background: linear-gradient(135deg,
             rgba($primary-red, 0.05) 0%,
             rgba($secondary-red, 0.03) 50%,
@@ -28,6 +29,52 @@
 
     &__title-section {
         margin-bottom: $spacing-xl;
+    }
+
+    &__reference-btn {
+        @include flex-center;
+        gap: $spacing-sm;
+        margin: $spacing-lg auto;
+        padding: $spacing-md $spacing-xl;
+        background: linear-gradient(135deg, $primary-red, $secondary-red);
+        color: $primary-white;
+        border: none;
+        border-radius: $radius-lg;
+        font-size: 1rem;
+        font-weight: $font-weight-bold;
+        cursor: pointer;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: $shadow-md;
+        font-family: $font-primary;
+
+        &:hover {
+            transform: translateY(-3px);
+            box-shadow: $shadow-hover;
+            background: linear-gradient(135deg, #C41E1E, #DC2020);
+        }
+
+        &:active {
+            transform: translateY(-1px);
+            box-shadow: $shadow-md;
+        }
+
+        &-icon {
+            font-size: 1.25rem;
+        }
+
+        &-arrow {
+            font-size: 1.25rem;
+            transition: transform 0.3s ease;
+        }
+
+        &:hover &-arrow {
+            transform: translateX(4px);
+        }
+
+        @include responsive(sm) {
+            font-size: 1.1rem;
+            padding: $spacing-md $spacing-xxl;
+        }
     }
 
     &__title {

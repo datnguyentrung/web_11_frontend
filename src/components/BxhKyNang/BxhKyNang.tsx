@@ -1,38 +1,52 @@
 import { useState, useEffect } from 'react';
-import type Bxh from '../../types/bxh';
-import BxhList from './components/BxhList/BxhList';
-import { getPlayerStats } from './utils/sortUtils';
-import bxhCs1Data from '../../json/BxhCs1';
+import { useNavigate } from 'react-router-dom';
+import type { Bxh } from '../../types/bxh';
+import { getPlayerStats } from '../../utils/sortUtils';
 import './BxhKyNang.scss';
+import { loadBxhData } from '../../utils/bxh';
+import BxhList from './BxhList/BxhList';
 
 interface BxhKyNangProps {
-    data?: Bxh[];
+    filterName: string;
+    branch: string[];
     title?: string;
 }
 
 export default function BxhKyNang({
-    data = bxhCs1Data,
-    title = "Bảng Xếp Hạng Kỹ Năng Taekwondo"
+    filterName,
+    branch,
+    title = "Bảng Xếp Hạng Kỹ Năng Thể Lực - Tốc Độ"
 }: BxhKyNangProps) {
+    const navigate = useNavigate();
+
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
     const [players, setPlayers] = useState<Bxh[]>([]);
 
+    // TODO: Sử dụng bangTheLuc để tính toán level
+    // console.log('Bảng thể lực:', bangTheLuc);
+    // console.log('Bảng xếp hạng:', players);
+
     useEffect(() => {
-        // Simulate loading time for better UX
-        const loadData = async () => {
+        const loadAllData = async () => {
             try {
+                // SỬA Ở ĐÂY: Gọi trực tiếp hàm, bỏ "Promise."
+                const bxhData = await loadBxhData();
+
+                setPlayers(bxhData);
+
+                // Simulate loading time
                 await new Promise(resolve => setTimeout(resolve, 500));
-                setPlayers(data);
                 setLoading(false);
-            } catch {
+            } catch (error) {
+                console.error('Lỗi khi load dữ liệu:', error);
                 setError('Không thể tải dữ liệu bảng xếp hạng');
                 setLoading(false);
             }
         };
 
-        loadData();
-    }, [data]);
+        loadAllData();
+    }, []);
 
     const stats = getPlayerStats(players);
 
@@ -76,6 +90,14 @@ export default function BxhKyNang({
             <div className="bxh-kynang__header">
                 <div className="bxh-kynang__title-section">
                     <h2 className="bxh-kynang__title">{title}</h2>
+                    <button
+                        className="bxh-kynang__reference-btn"
+                        onClick={() => navigate('/skill-level-reference')}
+                    >
+                        <span className="bxh-kynang__reference-btn-icon">📋</span>
+                        <span>Bảng quy đổi trình độ</span>
+                        <span className="bxh-kynang__reference-btn-arrow">→</span>
+                    </button>
                     <p className="bxh-kynang__subtitle">
                         Kết quả luyện tập và thi đấu của các vận động viên
                     </p>
@@ -84,10 +106,10 @@ export default function BxhKyNang({
                 <div className="bxh-kynang__stats-grid">
                     <div className="bxh-kynang__stat-card">
                         <span className="bxh-kynang__stat-value">{stats.total}</span>
-                        <span className="bxh-kynang__stat-label">Vận động viên</span>
+                        <span className="bxh-kynang__stat-label">Lượt tham gia</span>
                     </div>
                     <div className="bxh-kynang__stat-card">
-                        <span className="bxh-kynang__stat-value">{stats.maxCount.toLocaleString()}</span>
+                        <span className="bxh-kynang__stat-value">{stats.maxAmount}</span>
                         <span className="bxh-kynang__stat-label">Số lần cao nhất</span>
                     </div>
                     <div className="bxh-kynang__stat-card">
@@ -95,14 +117,21 @@ export default function BxhKyNang({
                         <span className="bxh-kynang__stat-label">Cấp độ trung bình</span>
                     </div>
                     <div className="bxh-kynang__stat-card">
-                        <span className="bxh-kynang__stat-value">{stats.maxTime}m</span>
+                        <span className="bxh-kynang__stat-value">{stats.maxDuration} giây</span>
                         <span className="bxh-kynang__stat-label">Thời gian cao nhất</span>
                     </div>
                 </div>
             </div>
 
             <div className="bxh-kynang__content">
-                <BxhList players={players} />
+                <BxhList
+                    players={players
+                        .filter(player => branch.length > 0 ? branch.includes(player.branch.toString()) : true)
+                        .map((player, index) => ({ ...player, rank: index + 1 }))
+                        .filter(player => filterName ? player.studentName.toLowerCase().includes(filterName.toLowerCase()) : true)
+                    }
+                    hasFilterName={!!filterName}
+                />
             </div>
 
             <div className="bxh-kynang__footer">
