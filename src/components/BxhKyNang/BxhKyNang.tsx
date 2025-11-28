@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import type { Bxh } from '../../types/bxh';
 import { getPlayerStats } from '../../utils/sortUtils';
@@ -18,6 +18,7 @@ export default function BxhKyNang({
     title = "Bảng Xếp Hạng Kỹ Năng Thể Lực - Tốc Độ"
 }: BxhKyNangProps) {
     const navigate = useNavigate();
+    const componentRef = useRef<HTMLDivElement>(null);
 
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState<string | null>(null);
@@ -47,6 +48,23 @@ export default function BxhKyNang({
 
         loadAllData();
     }, []);
+
+    // Auto scroll to component start in mobile after loading
+    useEffect(() => {
+        if (!loading && componentRef.current) {
+            const isMobile = window.innerWidth <= 639;
+            if (isMobile) {
+                const timer = setTimeout(() => {
+                    componentRef.current?.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }, 300); // Small delay for smooth experience
+
+                return () => clearTimeout(timer);
+            }
+        }
+    }, [loading]);
 
     const stats = getPlayerStats(players);
 
@@ -86,7 +104,7 @@ export default function BxhKyNang({
     }
 
     return (
-        <div className="bxh-kynang">
+        <div className="bxh-kynang" ref={componentRef}>
             <div className="bxh-kynang__header">
                 <div className="bxh-kynang__title-section">
                     <h2 className="bxh-kynang__title">{title}</h2>
