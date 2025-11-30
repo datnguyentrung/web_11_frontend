@@ -24,9 +24,7 @@ export default function BxhKyNang({
     const [error, setError] = useState<string | null>(null);
     const [players, setPlayers] = useState<Bxh[]>([]);
 
-    // TODO: Sử dụng bangTheLuc để tính toán level
-    // console.log('Bảng thể lực:', bangTheLuc);
-    // console.log('Bảng xếp hạng:', players);
+    console.log('Bảng xếp hạng:', players);
 
     useEffect(() => {
         const loadAllData = async () => {
@@ -160,7 +158,7 @@ export default function BxhKyNang({
 
             <div className="bxh-kynang__footer">
                 <p className="bxh-kynang__footer-text">
-                    Cập nhật lần cuối: {new Date().toLocaleDateString('vi-VN')}
+                    Cập nhật lần cuối: 12/01/2025
                 </p>
             </div>
         </div>
