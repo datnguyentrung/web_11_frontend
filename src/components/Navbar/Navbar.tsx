@@ -24,21 +24,29 @@ export default function Navbar({ title = "Hệ Thống Taekwondo Văn Quán" }: 
 
                 <div className="navbar__actions">
                     <div className="navbar__nav">
-                        <Link
-                            to="/"
-                            className={`navbar__nav-link ${location.pathname === '/' ? 'navbar__nav-link--active' : ''}`}
-                        >
-                            <span>📊</span> Bảng xếp hạng
+                        {/* Tournament */}
+                        <Link to='/giai-dau' className={`navbar__nav-item ${location.pathname === '/giai-dau' ? 'active' : ''}`}>
+                            🏆 Giải đấu
                         </Link>
-                        <Link
-                            to="/skill-level-reference"
-                            className={`navbar__nav-link ${location.pathname === '/skill-level-reference' ? 'navbar__nav-link--active' : ''}`}
-                        >
-                            <span>📋</span> Quy đổi trình độ
-                        </Link>
+
+                        {/* Dropdown Menu for Fitness Program */}
+                        <div className="dropdown-menu">
+                            <Link
+                                to="/chuong-trinh-ky-nang/bang-xep-hang"
+                                className={`dropdown-item ${location.pathname === '/fitness-program/ranker' ? 'active' : ''}`}
+                            >
+                                📊 Bảng xếp hạng
+                            </Link>
+                            <Link
+                                to="/chuong-trinh-ky-nang/bang-quy-doi-trinh-do"
+                                className={`dropdown-item ${location.pathname === '/fitness-program/skill-level-reference' ? 'active' : ''}`}
+                            >
+                                📋 Quy đổi trình độ
+                            </Link>
+                        </div>
                     </div>
                 </div>
             </div>
-        </nav>
+        </nav >
     );
 }

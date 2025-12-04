@@ -1,42 +1,28 @@
 import Navbar from './components/Navbar/Navbar';
-import BxhKyNang from './components/BxhKyNang/BxhKyNang';
-import Filter from './components/Filter/Filter';
-import SkillLevel from './components/SkillLevel/SkillLevel';
 import './App.css';
-import React from 'react';
-import { Routes, Route, useLocation } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
+import FitnessComponent from './components/FitnessProgram/FitnessProgram';
+import SkillLevel from './components/FitnessProgram/SkillLevel/SkillLevel';
+import Tournament from './components/Tournament/Tournament';
+import TournamentDetails from './components/Tournament/TournamentDetails/TournamentDetails';
+import CompetitorList from './components/Tournament/CompetitorList/CompetitorList';
+import TournamentDiscipline from './components/Tournament/TournamentDiscipline/TournamentDiscipline';
 
 function App() {
-  const [filterName, setFilterName] = React.useState<string>('');
-  const [branch, setBranch] = React.useState<string[]>([]);
-  const location = useLocation();
-
-  // Reset filters when navigating away from home page
-  React.useEffect(() => {
-    if (location.pathname !== '/') {
-      setFilterName('');
-      setBranch([]);
-    }
-  }, [location.pathname]);
-
   return (
     <div className="app">
       <Navbar />
       <div className="navbar-spacer"></div>
       <main className="app__main">
         <Routes>
-          <Route path="/" element={
-            <>
-              <Filter
-                filterName={filterName}
-                setFilterName={setFilterName}
-                branch={branch}
-                setBranch={setBranch}
-              />
-              <BxhKyNang filterName={filterName} branch={branch} />
-            </>
-          } />
-          <Route path="/skill-level-reference" element={<SkillLevel />} />
+          <Route path="/giai-dau" element={<Tournament />} />
+          <Route path="/giai-dau/:idTournament" element={<TournamentDetails />} />
+          <Route path="/giai-dau/:idTournament/:tournamentType" element={<TournamentDiscipline />} />
+
+          <Route path="/giai-dau/:tournamentType/danh-sach" element={<CompetitorList />} />
+
+          <Route path="/chuong-trinh-ky-nang/bang-xep-hang" element={<FitnessComponent />} />
+          <Route path="/chuong-trinh-ky-nang/bang-quy-doi-trinh-do" element={<SkillLevel />} />
         </Routes>
       </main>
     </div>
