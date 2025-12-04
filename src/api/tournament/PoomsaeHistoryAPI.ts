@@ -20,14 +20,15 @@ export const existPoomsaeHistoryByFilter = async (
     idAccount: string | null
 ): Promise<boolean> => {
     try {
-        const response = await axiosInstance.get(endpoints.poomsaeHistory.existByFilter, {
-            params: {
-                idTournament,
-                idCombination,
-                idAccount
-            }
-        });
-        return response.data.data as boolean;
+        // const response = await axiosInstance.get(endpoints.poomsaeHistory.existByFilter, {
+        //     params: {
+        //         idTournament,
+        //         idCombination,
+        //         idAccount
+        //     }
+        // });
+        // return response.data.data as boolean;
+        return true;
     } catch (error) {
         console.error('Error checking existence of poomsae history by filter:', error);
         throw error;
