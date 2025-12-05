@@ -7,7 +7,7 @@ import { createPoomsaeHistoryForElimination } from "@/api/tournament/PoomsaeHist
 import { existPoomsaeHistoryByFilter } from "@/api/tournament/PoomsaeHistoryAPI";
 
 import type { CompetitorBaseDTO } from "@/types/achievement/Competitor";
-import ModalAddStudent from "./ModalAddStudent";
+import ModalAddAthlete from "./ModalAddAthlete";
 
 type Props = {
   tournamentId: string;
@@ -160,11 +160,11 @@ export default function CompetitorListCard({
           )}
         </div>
       </div>
-      <ModalAddStudent
+      <ModalAddAthlete
         isModalOpen={isModalOpen}
         handleOk={saveListAthlete}
         handleCancel={handleCancel}
-      ></ModalAddStudent>
+      ></ModalAddAthlete>
       {competitors.length === 0 ? (
         <div>Không có vận động viên nào</div>
       ) : (

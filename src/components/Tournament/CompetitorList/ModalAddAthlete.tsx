@@ -20,7 +20,7 @@ const allAthlete = [
   { id: 8, name: "Ngô Thị Hà", class: "10A2" },
 ];
 
-export default function ModalAddStudent({
+export default function ModalAddAthlete({
   isModalOpen,
   handleOk,
   handleCancel,
