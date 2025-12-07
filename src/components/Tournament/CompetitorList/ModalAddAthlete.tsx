@@ -1,6 +1,10 @@
-import React, { useState } from "react";
-import { Modal, Input, List, Tag } from "antd";
-import { SearchOutlined } from "@ant-design/icons";
+import React, { useState, useEffect, useRef } from "react";
+import { Modal, Input, List, Tag, Spin } from "antd";
+import { SearchOutlined, LoadingOutlined } from "@ant-design/icons";
+
+import type { Student } from '@/types/training/StudentType';
+
+import { searchStudents } from '@/api/training/StudentAPI';
 
 type PropType = {
   isModalOpen: boolean;
@@ -8,17 +12,7 @@ type PropType = {
   handleCancel: () => void;
 };
 
-// Đây là dữ liệu mẫu có gì anh bỏ đi xong gọi api qua đấy nhé
-const allAthlete = [
-  { id: 1, name: "Nguyễn Văn An", class: "10A1" },
-  { id: 2, name: "Trần Thị Bình", class: "10A2" },
-  { id: 3, name: "Lê Văn Cường", class: "10A1" },
-  { id: 4, name: "Phạm Thị Dung", class: "10A3" },
-  { id: 5, name: "Hoàng Văn Em", class: "10A2" },
-  { id: 6, name: "Vũ Thị Phương", class: "10A1" },
-  { id: 7, name: "Đỗ Văn Giang", class: "10A3" },
-  { id: 8, name: "Ngô Thị Hà", class: "10A2" },
-];
+// Search chỉ tra tên 'Chi' hoặc tương tự em nhé, không cần gõ full tên
 
 export default function ModalAddAthlete({
   isModalOpen,
@@ -26,31 +20,67 @@ export default function ModalAddAthlete({
   handleCancel,
 }: PropType) {
   const [searchValue, setSearchValue] = useState("");
-  const [selectedAthlete, setSelectedAthlete] = useState<typeof allAthlete>([]);
-  const [filteredAthlete, setFilteredAthlete] = useState<typeof allAthlete>([]);
+  const [selectedAthlete, setSelectedAthlete] = useState<Student[]>([]);
+  const [filteredAthlete, setFilteredAthlete] = useState<Student[]>([]);
+  const [loading, setLoading] = useState(false);
 
-  const handleSearch = (value: string) => {
-    setSearchValue(value);
-    if (value.trim()) {
-      const filtered = allAthlete.filter(
-        (athlete) =>
-          athlete.name.toLowerCase().includes(value.toLowerCase()) &&
-          !selectedAthlete.some((s) => s.id === athlete.id)
-      );
-      setFilteredAthlete(filtered);
-    } else {
+  const abortControllerRef = useRef<AbortController | null>(null);
+
+  useEffect(() => {
+    // 1. Nếu không có giá trị search thì reset luôn
+    if (!searchValue) {
       setFilteredAthlete([]);
+      setLoading(false);
+      return;
     }
-  };
 
-  const handleAddAthlete = (student: (typeof allAthlete)[0]) => {
+    // 2. Thiết lập bộ đếm giờ (Debounce)
+    const timerId = setTimeout(() => {
+      if (abortControllerRef.current) {
+        abortControllerRef.current.abort();
+      }
+
+      const newController = new AbortController();
+      abortControllerRef.current = newController;
+      const { signal } = newController;
+
+      const fetchStudents = async () => {
+        setLoading(true);
+        try {
+          const response = await searchStudents(searchValue, signal);
+          // Kiểm tra nếu component chưa bị unmount hoặc signal chưa abort mới set state
+          if (!signal.aborted) {
+            setFilteredAthlete(response); // response thường đã là data rồi, bỏ bớt await dư
+          }
+        } catch (error: unknown) {
+          // Bỏ qua lỗi nếu nguyên nhân là do ta chủ động huỷ (AbortError)
+          if (error instanceof Error && error.name === 'AbortError') {
+            console.log('Request cũ đã bị huỷ để ưu tiên request mới');
+          } else {
+            console.error('Lỗi mạng hoặc server:', error);
+          }
+        } finally {
+          // Chỉ tắt loading nếu request này chưa bị huỷ
+          if (!signal.aborted) {
+            setLoading(false);
+          }
+        }
+      }
+
+      fetchStudents();
+    }, 300); // <--- Đợi 300ms sau khi ngừng gõ mới chạy hàm bên trong
+
+    return () => clearTimeout(timerId); // <--- Clear timeout khi searchValue thay đổi hoặc component unmount
+  }, [searchValue]);
+
+  const handleAddAthlete = (student: Student) => {
     setSelectedAthlete([...selectedAthlete, student]);
     setSearchValue("");
     setFilteredAthlete([]);
   };
 
-  const handleRemoveAthlete = (studentId: number) => {
-    setSelectedAthlete(selectedAthlete.filter((s) => s.id !== studentId));
+  const handleRemoveAthlete = (studentId: string) => {
+    setSelectedAthlete(selectedAthlete.filter((s) => s.personalInfo.idAccount !== studentId));
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
@@ -88,13 +118,21 @@ export default function ModalAddAthlete({
         <Input
           placeholder="Tìm kiếm tên vận động viên..."
           prefix={<SearchOutlined />}
+          suffix={loading ? <Spin indicator={<LoadingOutlined spin />} size="small" /> : null}
           value={searchValue}
-          onChange={(e) => handleSearch(e.target.value)}
+          onChange={(e) => setSearchValue(e.target.value)}
           onKeyPress={handleKeyPress}
           style={{ marginBottom: 8 }}
         />
 
-        {filteredAthlete.length > 0 && (
+        {loading && searchValue && (
+          <div style={{ textAlign: 'center', padding: '12px' }}>
+            <Spin indicator={<LoadingOutlined style={{ fontSize: 24 }} spin />} />
+            <div style={{ marginTop: 8, color: '#666' }}>Đang tìm kiếm...</div>
+          </div>
+        )}
+
+        {!loading && filteredAthlete.length > 0 && (
           <List
             bordered
             size="small"
@@ -116,9 +154,9 @@ export default function ModalAddAthlete({
                 }}
               >
                 <div>
-                  <strong>{student.name}</strong>
+                  <strong>{student.personalInfo.name}</strong>
                   <span style={{ marginLeft: 8, color: "#888" }}>
-                    ({student.class})
+                    ({student.academicInfo.idBranch})
                   </span>
                 </div>
               </List.Item>
@@ -137,13 +175,13 @@ export default function ModalAddAthlete({
           <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
             {selectedAthlete.map((athlete) => (
               <Tag
-                key={athlete.id}
+                key={athlete.personalInfo.idAccount}
                 closable
-                onClose={() => handleRemoveAthlete(athlete.id)}
+                onClose={() => handleRemoveAthlete(athlete.personalInfo.idAccount)}
                 color="blue"
                 style={{ fontSize: 14, padding: "4px 8px" }}
               >
-                {athlete.name} ({athlete.class})
+                {athlete.personalInfo.name} ({athlete.academicInfo.idBranch})
               </Tag>
             ))}
           </div>

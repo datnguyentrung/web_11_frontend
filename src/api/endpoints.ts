@@ -28,5 +28,8 @@ export const endpoints = {
     poomsaeHistory: {
         createForElimination: `${API_VERSION_1}/poomsae-histories/elimination`,
         existByFilter: `${API_VERSION_1}/poomsae-histories/exists`,
+    },
+    student: {
+        search: `${API_VERSION_1}/students/search`,
     }
 };
