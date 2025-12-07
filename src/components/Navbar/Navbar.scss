@@ -102,7 +102,6 @@
         }
 
         @include mobile-only {
-            // Truncate text on very small screens
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
@@ -209,9 +208,144 @@
             }
         }
     }
+
+    &__nav-dropdown {
+        position: relative;
+    }
+
+    &__nav-item {
+        @include flex-center;
+        gap: $spacing-xs;
+        padding: $spacing-xs $spacing-sm;
+        color: $primary-white;
+        text-decoration: none;
+        font-size: 0.75rem;
+        font-weight: $font-weight-medium;
+        border-radius: $radius-sm;
+        transition: all 0.3s ease;
+        background: rgba($primary-white, 0.1);
+        backdrop-filter: blur(5px);
+        border: 1px solid rgba($primary-white, 0.2);
+        white-space: nowrap;
+        cursor: pointer;
+
+        @include mobile-only {
+            padding: $spacing-xs;
+            font-size: 0;
+            min-width: 32px;
+            justify-content: center;
+        }
+
+        @include responsive(sm) {
+            font-size: 0.85rem;
+            padding: $spacing-sm $spacing-md;
+            border-radius: $radius-md;
+        }
+
+        @include responsive(md) {
+            font-size: 0.9rem;
+        }
+
+        @include responsive(lg) {
+            font-size: 1rem;
+            padding: $spacing-sm $spacing-lg;
+        }
+
+        &:hover {
+            background: rgba($primary-white, 0.2);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        &.active {
+            background: $primary-white;
+            color: $primary-red;
+            font-weight: $font-weight-bold;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+
+            &:hover {
+                background: $primary-white;
+                transform: translateY(-2px);
+            }
+        }
+    }
+
+    &__nav-dropdown {
+        .dropdown-menu {
+            position: absolute;
+            top: calc(100% + 8px);
+            left: 50%;
+            transform: translateX(-50%) translateY(-10px);
+            background: $primary-white;
+            border-radius: $radius-md;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+            min-width: 220px;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 1000;
+            overflow: hidden;
+
+            @include mobile-only {
+                min-width: 180px;
+                left: 0;
+                transform: translateX(0) translateY(-10px);
+            }
+        }
+
+        &:hover .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(-50%) translateY(0);
+
+            @include mobile-only {
+                transform: translateX(0) translateY(0);
+            }
+        }
+    }
+
+    .dropdown-item {
+        display: block;
+        padding: $spacing-sm $spacing-md;
+        color: #333;
+        text-decoration: none;
+        font-size: 0.85rem;
+        font-weight: $font-weight-medium;
+        transition: all 0.2s ease;
+        border-left: 3px solid transparent;
+
+        @include responsive(sm) {
+            padding: $spacing-sm $spacing-lg;
+            font-size: 0.9rem;
+        }
+
+        @include responsive(md) {
+            font-size: 0.95rem;
+        }
+
+        &:hover {
+            background: rgba($primary-red, 0.05);
+            border-left-color: $primary-red;
+            padding-left: calc($spacing-md + 4px);
+
+            @include responsive(sm) {
+                padding-left: calc($spacing-lg + 4px);
+            }
+        }
+
+        &.active {
+            background: rgba($primary-red, 0.1);
+            border-left-color: $primary-red;
+            font-weight: $font-weight-bold;
+            color: $primary-red;
+        }
+
+        &:not(:last-child) {
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
+    }
 }
 
-// Navbar height compensation for other components
 .navbar-spacer {
     height: 48px;
 
