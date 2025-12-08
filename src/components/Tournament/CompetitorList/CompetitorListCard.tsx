@@ -167,6 +167,7 @@ export default function CompetitorListCard({
         tournamentId={tournamentId}
         combinationId={combinationId}
         combinationType={tournamentType}
+        competitors={competitors}
       ></ModalAddAthlete>
       {competitors.length === 0 ? (
         <div>Không có vận động viên nào</div>

@@ -3,7 +3,7 @@ import { Modal, Input, List, Tag, Spin } from "antd";
 import { SearchOutlined, LoadingOutlined } from "@ant-design/icons";
 
 import type { Student } from '@/types/training/StudentType';
-import type { CompetitorInputDTO } from '@/types/achievement/Competitor';
+import type { CompetitorInputDTO, CompetitorBaseDTO } from '@/types/achievement/Competitor';
 
 import { searchStudents } from '@/api/training/StudentAPI';
 import { createPoomsaeList } from "@/api/achievement/PoomsaeListAPI";
@@ -16,6 +16,7 @@ type PropType = {
   tournamentId: string;
   combinationId: string;
   combinationType: string;
+  competitors: CompetitorBaseDTO[];
 };
 
 // Search chỉ tra tên 'Chi' hoặc tương tự, không cần gõ full tên
@@ -27,6 +28,7 @@ export default function ModalAddAthlete({
   tournamentId,
   combinationId,
   combinationType,
+  competitors,
 }: PropType) {
   const [searchValue, setSearchValue] = useState("");
   const [selectedAthlete, setSelectedAthlete] = useState<Student[]>([]);
@@ -185,7 +187,9 @@ export default function ModalAddAthlete({
               backgroundColor: "#fff",
             }}
             dataSource={filteredAthlete.filter((item: Student) =>
-              !selectedAthlete.some((s) => s.personalInfo.idAccount === item.personalInfo.idAccount))}
+              !selectedAthlete.some((s) => s.personalInfo.idAccount === item.personalInfo.idAccount) &&
+              !competitors.some((c) => c.competitorDetailDTO.personalAcademicInfo.personalInfo.idAccount === item.personalInfo.idAccount)
+            )}
             renderItem={(student) => (
               <List.Item
                 style={{ cursor: "pointer", padding: "8px 12px" }}
