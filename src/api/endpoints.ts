@@ -1,3 +1,5 @@
+import { create } from "node_modules/axios/index.d.cts";
+
 const API_VERSION_1 = "/api/v1";
 
 export const endpoints = {
@@ -21,9 +23,11 @@ export const endpoints = {
     },
     poomsaeList: {
         byFilter: `${API_VERSION_1}/poomsae-lists/filter`,
+        create: `${API_VERSION_1}/poomsae-lists`,
     },
     sparringList: {
         byFilter: `${API_VERSION_1}/sparring-lists/filter`,
+        create: `${API_VERSION_1}/sparring-lists`,
     },
     poomsaeHistory: {
         createForElimination: `${API_VERSION_1}/poomsae-histories/elimination`,

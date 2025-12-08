@@ -3,13 +3,19 @@ import { Modal, Input, List, Tag, Spin } from "antd";
 import { SearchOutlined, LoadingOutlined } from "@ant-design/icons";
 
 import type { Student } from '@/types/training/StudentType';
+import type { CompetitorInputDTO } from '@/types/achievement/Competitor';
 
 import { searchStudents } from '@/api/training/StudentAPI';
+import { createPoomsaeList } from "@/api/achievement/PoomsaeListAPI";
+import { createSparringList } from "@/api/achievement/SparringListAPI";
 
 type PropType = {
   isModalOpen: boolean;
   handleOk: () => void;
   handleCancel: () => void;
+  tournamentId: string;
+  combinationId: string;
+  combinationType: string;
 };
 
 // Search chỉ tra tên 'Chi' hoặc tương tự em nhé, không cần gõ full tên
@@ -18,6 +24,9 @@ export default function ModalAddAthlete({
   isModalOpen,
   handleOk,
   handleCancel,
+  tournamentId,
+  combinationId,
+  combinationType,
 }: PropType) {
   const [searchValue, setSearchValue] = useState("");
   const [selectedAthlete, setSelectedAthlete] = useState<Student[]>([]);
@@ -89,7 +98,36 @@ export default function ModalAddAthlete({
     }
   };
 
+  const handleAddCompetitor = async (competitorInputs: CompetitorInputDTO) => {
+    if (combinationType === "doi-khang") {
+      try {
+        // Gọi API để thêm vận động viên vào sparring list
+        await createSparringList(competitorInputs);
+        console.log("Đã thêm vận động viên vào sparring list:", competitorInputs);
+      } catch (error) {
+        console.error("Lỗi khi thêm vận động viên vào sparring list:", error);
+      }
+    } else if (combinationType === "quyen") {
+      try {
+        // Gọi API để thêm vận động viên vào poomsae list
+        await createPoomsaeList(competitorInputs);
+        console.log("Đã thêm vận động viên vào poomsae list:", competitorInputs);
+      } catch (error) {
+        console.error("Lỗi khi thêm vận động viên vào poomsae list:", error);
+      }
+    }
+  };
+
   const handleModalOk = () => {
+    const competitorInputs: CompetitorInputDTO = {
+      idAccounts: selectedAthlete.map((athlete) => athlete.personalInfo.idAccount),
+      competition: {
+        idTournament: tournamentId,
+        idCombination: combinationId,
+      },
+    }
+    handleAddCompetitor(competitorInputs);
+
     console.log("vđv đã chọn:", selectedAthlete);
     handleOk();
     setSelectedAthlete([]);

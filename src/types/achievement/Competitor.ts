@@ -1,8 +1,7 @@
 import type { Student } from "../training/StudentType";
 
 export interface CompetitorInputDTO {
-    idAccount: string;
-    medal: string | null;
+    idAccounts: string[];
     competition: CompetitionDTO;
 }
 
