@@ -21,12 +21,17 @@ export const endpoints = {
     },
     poomsaeList: {
         byFilter: `${API_VERSION_1}/poomsae-lists/filter`,
+        create: `${API_VERSION_1}/poomsae-lists`,
     },
     sparringList: {
         byFilter: `${API_VERSION_1}/sparring-lists/filter`,
+        create: `${API_VERSION_1}/sparring-lists`,
     },
     poomsaeHistory: {
         createForElimination: `${API_VERSION_1}/poomsae-histories/elimination`,
         existByFilter: `${API_VERSION_1}/poomsae-histories/exists`,
+    },
+    student: {
+        search: `${API_VERSION_1}/students/search`,
     }
 };
