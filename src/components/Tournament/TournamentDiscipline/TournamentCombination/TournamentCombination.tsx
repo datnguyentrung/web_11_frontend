@@ -7,23 +7,35 @@ import { PoomsaeModeLabel } from '@/enums/Tournament';
 
 type Props = {
     combinations: CombinationDetail[];
-    idTournament: string;
-    tournamentType: string; // "quyen" or "doi-khang"
+    tournamentId: string;
+    discipline: string; // "quyen" or "doi-khang"
 };
 
-export default function TournamentCombination({ combinations, idTournament, tournamentType }: Props) {
+export default function TournamentCombination({ combinations, tournamentId, discipline }: Props) {
     const navigate = useNavigate();
 
-    const handleCombinationClick = (slug: string, idCombination: string, combinationName: string) => {
+    const handleCombinationClick = (
+        page: 'danh-sach' | 'bang-dau',
+        combinationId: string,
+        combinationName: string,
+        sigmaType?: string
+    ) => {
+        const path = `/giai-dau/${tournamentId}/${discipline}/${combinationId}/${page}`;
+
+        const params: Record<string, string> = {
+            combination_name: combinationName
+        };
+
+        // Nếu có sigmaType (khi vào bảng đấu), thêm vào search params
+        if (sigmaType) {
+            params.sigma_type = sigmaType;
+        }
+
         navigate({
-            pathname: `/giai-dau/${tournamentType}/${slug}`,
-            search: createSearchParams({
-                tournament: idTournament,
-                combination_id: idCombination,
-                combination_name: combinationName
-            }).toString()
+            pathname: path,
+            search: createSearchParams(params).toString()
         });
-    }
+    };
 
     return (
         <div className="tournament-combinations">
@@ -71,14 +83,14 @@ export default function TournamentCombination({ combinations, idTournament, tour
                             <div className="combination-card__actions">
                                 <button
                                     className="combination-card__action combination-card__action--primary"
-                                    onClick={() => handleCombinationClick("bang-dau", combination.idPoomsaeCombination, combination.poomsaeContentName)}
+                                    onClick={() => handleCombinationClick('bang-dau', combination.idPoomsaeCombination, combination.poomsaeContentName, combination.poomsaeMode)}
                                 >
                                     <Calendar className="combination-card__action-icon" />
                                     Bảng Đấu
                                 </button>
                                 <button
                                     className="combination-card__action combination-card__action--secondary"
-                                    onClick={() => handleCombinationClick("danh-sach", combination.idPoomsaeCombination, combination.poomsaeContentName)}
+                                    onClick={() => handleCombinationClick('danh-sach', combination.idPoomsaeCombination, combination.poomsaeContentName)}
                                 >
                                     <Users className="combination-card__action-icon" />
                                     Danh Sách

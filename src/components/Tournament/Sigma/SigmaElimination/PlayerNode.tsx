@@ -1,23 +1,25 @@
+import './PlayerNode.scss';
 import React from 'react';
 import { Delete } from 'lucide-react';
-import Node from './Node';
-import './PlayerNode.scss';
-import type { PoomsaeHistory } from '@/types/tournament/PoomsaeType';
-import type { SparringHistory } from '@/types/tournament/SparringType';
+
+import type { HistoryInfo } from '@/types/tournament/TournamentType';
 import type { SigmaData } from '@/types/tournament/SigmaType';
+
 import { PoomsaeSigmaLocalStorage } from '@/utils/PoomsaeSigmaStorage';
+
+import Node from './Node';
 
 interface PlayerNodeProps {
     /** Player data for the node */
-    player?: PoomsaeHistory | SparringHistory;
+    player?: HistoryInfo;
     /** Visual status of the node ('chung', 'hong', 'waiting', etc.) */
     nodeStatus: string;
     /** Number of participants in the tournament */
     participants?: number;
     /** Callback when a winner is chosen */
-    onChooseWinner: (player: PoomsaeHistory | SparringHistory) => void;
+    onChooseWinner: (player: HistoryInfo) => void;
     /** Callback when a player node is deleted */
-    onDeleteNode: (player: PoomsaeHistory | SparringHistory) => void;
+    onDeleteNode: (player: HistoryInfo) => void;
     /** Poomsae content for context (if applicable) */
     content?: string;
     /** Callback to refresh data after changes */
@@ -41,7 +43,7 @@ const PlayerNode: React.FC<PlayerNodeProps> = React.memo(({
 
     React.useEffect(() => {
         const checkDeletability = async () => {
-            if (!player?.nodeInfo.sourceNode) {
+            if (!player?.sourceNode) {
                 setCanDelete(false);
                 return;
             }
@@ -51,10 +53,10 @@ const PlayerNode: React.FC<PlayerNodeProps> = React.memo(({
 
                 if (participants) {
                     // Tìm trong bảng participants cụ thể
-                    sigmaData = PoomsaeSigmaLocalStorage.findByChildNodeInParticipants(player.nodeInfo.sourceNode, participants);
+                    sigmaData = PoomsaeSigmaLocalStorage.findByChildNodeInParticipants(player.sourceNode, participants);
                 } else {
                     // Fallback: tìm trong tất cả bảng (cách cũ)
-                    sigmaData = PoomsaeSigmaLocalStorage.findByChildNode(player.nodeInfo.sourceNode);
+                    sigmaData = PoomsaeSigmaLocalStorage.findByChildNode(player.sourceNode);
                 }
 
                 // console.log(`Sigma Data for deletability check (participants: ${participants}):`, sigmaData);
@@ -70,7 +72,7 @@ const PlayerNode: React.FC<PlayerNodeProps> = React.memo(({
         const timeoutId = setTimeout(checkDeletability, 100);
 
         return () => clearTimeout(timeoutId);
-    }, [player?.nodeInfo.sourceNode, participants]);
+    }, [player?.sourceNode, participants]);
 
     const handleDeleteClick = React.useCallback(() => {
         if (player) {
@@ -93,7 +95,7 @@ const PlayerNode: React.FC<PlayerNodeProps> = React.memo(({
                     className="player-delete-icon"
                     onClick={handleDeleteClick}
                     size={16}
-                    aria-label={`Xóa ${player.referenceInfo?.name || 'người chơi'}`}
+                    aria-label={`Xóa ${player.student.name || 'người chơi'}`}
                 />
             )}
         </div>

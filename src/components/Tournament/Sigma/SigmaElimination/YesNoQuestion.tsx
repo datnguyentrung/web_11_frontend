@@ -1,17 +1,18 @@
 import './YesNoQuestion.scss'
-import React from 'react';
-import type { PoomsaeHistory } from '@/types/tournament/PoomsaeType';
-import type { SparringHistory } from '@/types/tournament/SparringType';
-import { createPoomsaeEliminationWinner, deletePoomsaeHistoryForElimination } from '@/services/tournament/Poomsae/PoomsaeHistoryService';
 import { createPortal } from 'react-dom';
-import { createSparringWinner, deleteSparringHistory } from '@/services/tournament/Sparring/SparringHistoryService';
+import React from 'react';
+
+import type { HistoryInfo } from '@/types/tournament/TournamentType';
+
+import { createPoomsaeEliminationWinner, deletePoomsaeHistoryForElimination } from '@/api/tournament/Poomsae/PoomsaeHistoryAPI';
+import { createSparringWinner, deleteSparringHistory } from '@/api/tournament/Sparring/SparringHistoryAPI';
 
 type ModalMode = 'winner' | 'delete';
 
 type Props = {
     isOpen: boolean;
     mode: ModalMode;
-    player: PoomsaeHistory | SparringHistory | null;
+    player: HistoryInfo | null;
     participants?: number;
     onConfirm: () => void;
     onCancel: () => void;
@@ -45,21 +46,21 @@ export default function YesNoQuestion({ isOpen, mode, player, participants, onCo
             if ('idPoomsaeHistory' in player) {
                 // player là PoomsaeHistory
                 if (mode === 'winner') {
-                    await createPoomsaeEliminationWinner(participants || 0, player);
-                    console.log('Poomsae winner confirmed:', player.referenceInfo?.name);
+                    await createPoomsaeEliminationWinner(player.idHistory, participants || 0);
+                    console.log('Poomsae winner confirmed:', player.student?.name);
                 } else if (mode === 'delete') {
-                    await deletePoomsaeHistoryForElimination(player.idPoomsaeHistory, participants || 0);
-                    console.log('Poomsae node deletion confirmed for:', player.referenceInfo?.name);
+                    await deletePoomsaeHistoryForElimination(player.idHistory);
+                    console.log('Poomsae node deletion confirmed for:', player.student?.name);
                 }
             }
             else if ('idSparringHistory' in player) {
                 // player là SparringHistory
                 if (mode === 'winner') {
-                    await createSparringWinner(participants || 0, player);
-                    console.log('Sparring winner confirmed:', player.referenceInfo?.name);
+                    await createSparringWinner(player.idHistory, participants || 0);
+                    console.log('Sparring winner confirmed:', player.student?.name);
                 } else if (mode === 'delete') {
-                    await deleteSparringHistory(player.idSparringHistory, participants || 0);
-                    console.log('Sparring node deletion confirmed for:', player.referenceInfo?.name);
+                    await deleteSparringHistory(player.idHistory);
+                    console.log('Sparring node deletion confirmed for:', player.student?.name);
                 }
             }
 
@@ -74,14 +75,14 @@ export default function YesNoQuestion({ isOpen, mode, player, participants, onCo
         if (mode === 'winner') {
             return {
                 title: 'Xác nhận người chiến thắng',
-                message: `Bạn có chắc chắn muốn chọn ${player.referenceInfo?.name} là người chiến thắng không?`,
+                message: `Bạn có chắc chắn muốn chọn ${player.student.name} là người chiến thắng không?`,
                 confirmText: 'Xác nhận',
                 confirmClass: 'btn-confirm-winner'
             };
         } else {
             return {
                 title: 'Xác nhận xóa node',
-                message: `Bạn có chắc chắn muốn xóa node của ${player.referenceInfo?.name} không?`,
+                message: `Bạn có chắc chắn muốn xóa node của ${player.student.name} không?`,
                 confirmText: 'Xóa',
                 confirmClass: 'btn-confirm-delete'
             };
@@ -109,12 +110,9 @@ export default function YesNoQuestion({ isOpen, mode, player, participants, onCo
 
                     <div className="player-info">
                         <div className="player-details">
-                            <span className="player-name">{player.referenceInfo?.name}</span>
+                            <span className="player-name">{player.student.name}</span>
                             <span className="player-id">
-                                ID:{' '}
-                                {'idPoomsaeHistory' in player
-                                    ? player.idPoomsaeHistory
-                                    : player.idSparringHistory}
+                                ID: {player.idHistory}
                             </span>
                         </div>
                     </div>

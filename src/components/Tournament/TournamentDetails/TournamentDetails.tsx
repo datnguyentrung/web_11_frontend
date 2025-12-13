@@ -15,12 +15,12 @@ import TournamentDetailsSidebar from './TournamentDetailsSidebar/TournamentDetai
 import { getTournamentById } from '@/api/tournament/TournamentAPI';
 
 export default function TournamentDetails() {
-    const { idTournament } = useParams<{ idTournament: string }>();
+    const { tournamentId } = useParams<{ tournamentId: string }>();
     const [tournament, setTournament] = useState<TournamentType | null>(null);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        if (!idTournament) {
+        if (!tournamentId) {
             console.warn("No tournament ID provided in the URL.");
             return;
         }
@@ -28,7 +28,7 @@ export default function TournamentDetails() {
         const fetchTournamentDetails = async () => {
             try {
                 setLoading(true);
-                const data = await getTournamentById(idTournament);
+                const data = await getTournamentById(tournamentId);
                 setTournament(data);
             } catch (error) {
                 console.error("Failed to fetch tournament details:", error);
@@ -38,7 +38,7 @@ export default function TournamentDetails() {
         };
 
         fetchTournamentDetails();
-    }, [idTournament]);
+    }, [tournamentId]);
 
     const formatDate = (date: Date | string) => {
         const d = new Date(date);
@@ -256,7 +256,7 @@ export default function TournamentDetails() {
                     {/* Sidebar */}
                     <div className="tournament-details__sidebar">
                         <div className="sticky">
-                            <TournamentDetailsSidebar idTournament={idTournament!} />
+                            <TournamentDetailsSidebar tournamentId={tournamentId!} />
                         </div>
                     </div>
                 </div>

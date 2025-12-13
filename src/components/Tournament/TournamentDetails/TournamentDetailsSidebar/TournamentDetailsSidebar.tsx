@@ -3,28 +3,28 @@ import { Link, useLocation } from 'react-router-dom';
 import { Shield, Swords, Users, ChevronRight } from 'lucide-react';
 
 interface TournamentDetailsSidebarProps {
-    idTournament: string;
+    tournamentId: string;
 }
 
-export default function TournamentDetailsSidebar({ idTournament }: TournamentDetailsSidebarProps) {
+export default function TournamentDetailsSidebar({ tournamentId }: TournamentDetailsSidebarProps) {
     console.log('TournamentDetailsSidebar rendered');
     const location = useLocation();
 
     const menuItems = [
         {
-            to: `/giai-dau/${idTournament}/quyen`,
+            to: `/giai-dau/${tournamentId}/quyen`,
             icon: Shield,
             label: 'Danh Sách Quyền',
             description: 'Xem kết quả thi đấu quyền'
         },
         {
-            to: `/giai-dau/${idTournament}/doi-khang`,
+            to: `/giai-dau/${tournamentId}/doi-khang`,
             icon: Swords,
             label: 'Danh Sách Đối Kháng',
             description: 'Xem kết quả thi đấu đối kháng'
         },
         {
-            to: `/giai-dau/${idTournament}/van-dong-vien`,
+            to: `/giai-dau/${tournamentId}/van-dong-vien`,
             icon: Users,
             label: 'Danh Sách Vận Động Viên',
             description: 'Xem thông tin vận động viên'

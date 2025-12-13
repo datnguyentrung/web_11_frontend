@@ -1,18 +1,18 @@
+import React from 'react';
 import './SigmaElimination.scss';
-import NodeGroup from "./NodeGroup";
-import type { Node as BracketNode } from '@/types/tournament/SigmaType';
-import type { PoomsaeHistory } from '@/types/tournament/PoomsaeType';
-import type { SparringHistory } from '@/types/tournament/SparringType';
-import type { SigmaData } from '@/types/tournament/SigmaType';
 
-import { getBracketNodesByParticipants } from '@/services/BracketNode';
+import type { Node as BracketNode, SigmaData } from '@/types/tournament/SigmaType';
+import type { HistoryInfo } from '@/types/tournament/TournamentType';
+
+import { getBracketNodesByParticipants } from '@/api/tournament/BracketNodeAPI';
 
 import { getTournamentStructure, getTotalPlayersNeeded, getLabelForMatch } from "@/utils/NodeUtils";
 import { PoomsaeSigmaLocalStorage } from '@/utils/PoomsaeSigmaStorage';
-import React from 'react';
+
+import NodeGroup from "./NodeGroup";
 
 type Props = {
-    players?: PoomsaeHistory[] | SparringHistory[],
+    players?: HistoryInfo[],
     participants?: number,
     content?: string, // Thêm prop poomsaeContent
     onRefresh?: () => Promise<void>,
@@ -134,8 +134,8 @@ export default function SigmaElimination({ players, participants, content, onRef
 
     const renderBronzeMatch = () => {
         const player = players ? players
-            .filter(p => p.nodeInfo.levelNode === -1 && p.nodeInfo.targetNode === -1)
-            .sort((a, b) => a.nodeInfo.sourceNode - b.nodeInfo.sourceNode)
+            .filter(p => p.levelNode === -1 && p.targetNode === -1)
+            .sort((a, b) => a.sourceNode - b.sourceNode)
             : [];
         if (player.length < 1) return null; // Chỉ hiển thị nếu có đúng 2 người chơi cho trận tranh hạng 3
         // console.log("Bronze match players:", player.length);
@@ -179,11 +179,11 @@ export default function SigmaElimination({ players, participants, content, onRef
                                                     const sortedChildren = [...children].sort((a, b) => a - b);
                                                     // Mỗi parent có 2 children nodes, tạo thành 1 trận đấu
                                                     const player1 = players ? players.filter(p =>
-                                                        p.nodeInfo.sourceNode === sortedChildren[0]
-                                                        && p.nodeInfo.targetNode.toString() === parentId)[0] : undefined;
+                                                        p.sourceNode === sortedChildren[0]
+                                                        && p.targetNode.toString() === parentId)[0] : undefined;
                                                     const player2 = players ? players.filter(p =>
-                                                        p.nodeInfo.sourceNode === sortedChildren[1]
-                                                        && p.nodeInfo.targetNode.toString() === parentId)[0] : undefined;
+                                                        p.sourceNode === sortedChildren[1]
+                                                        && p.targetNode.toString() === parentId)[0] : undefined;
                                                     // console.log("Children nodes:", children);
                                                     // console.log("Player 1:", player1);
                                                     // console.log("Player 2:", player2);

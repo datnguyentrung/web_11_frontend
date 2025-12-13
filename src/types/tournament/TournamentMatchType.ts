@@ -2,7 +2,7 @@ import type { PoomsaeCategory } from '@/types/tournament/PoomsaeType';
 
 export interface KeyInfo {
     tournament: string;
-    idCombination: string;
+    idCombination?: string | null;
     targetNode: number;
     participants: number;
     firstNode?: boolean;
