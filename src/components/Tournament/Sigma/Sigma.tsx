@@ -50,13 +50,13 @@ export default function Sigma() {
     }
 
     return (
-        <div>
+        <>
             <SigmaElimination
                 players={players}
                 participants={players.length}
                 content={combinationName}
                 onRefresh={handleRefresh}
             />
-        </div>
+        </>
     );
 }

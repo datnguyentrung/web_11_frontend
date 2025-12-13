@@ -1,11 +1,12 @@
 .node {
-    padding: 4px;
+    padding: 4px 8px;
     border: 2px solid black;
     border-radius: 10px;
     cursor: context-menu; // Chỉ right-click menu, không click trực tiếp
     transition: all 0.2s ease; // thêm mượt mà
     width: 150px;
     font-size: 0.75rem;
+    text-align: center;
     position: relative; // Để positioning leader indicator
 
     &-chung {
@@ -64,10 +65,12 @@
 
 .node-won {
     background-color: var(--yellow-50);
-    border: 2px solid black;
+    border: 2px solid var(--yellow-400);
     padding: 6px;
     border-radius: 12px;
-
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .node-container {
@@ -163,4 +166,16 @@
     to {
         box-shadow: 0 4px 16px rgba(102, 126, 234, 0.6);
     }
+}
+
+.next-match-info {
+    font-size: 0.8rem;
+    color: #666;
+    margin-bottom: 5px;
+    text-align: center;
+    font-style: italic;
+    padding: 2px 8px;
+    background-color: #f0f0f0;
+    border-radius: 4px;
+    display: inline-block;
 }

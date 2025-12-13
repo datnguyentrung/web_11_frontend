@@ -34,7 +34,7 @@ export const getLabelForMatch = ({ roundIndex, totalRounds }: { roundIndex: numb
         case totalRounds:
             return "🏆"
         case totalRounds - 1:
-            return "Chung kết";
+            return null; // Chung kết không cần label
         case totalRounds - 2:
             return "Bán kết";
         case totalRounds - 3:

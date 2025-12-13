@@ -129,8 +129,8 @@ const NodeGroup = React.memo(function NodeGroup({ player1, player2, numberMatch,
             return (
                 <ContextMenu items={menuItems}>
                     <div className="match-number" style={{ cursor: 'pointer' }}>
-                        {targetNode === -1 ? `Trận tranh Huy Chương Đồng`
-                            : targetNode === 0 ? `Trận tranh Huy Chương Vàng`
+                        {targetNode === -1 ? `Trận tranh Đồng`
+                            : targetNode === 0 ? `Trận Chung Kết` // Trận tranh Huy Chương Vàng
                                 : `Trận ${numberMatch}`}
                     </div>
                 </ContextMenu>

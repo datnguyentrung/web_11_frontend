@@ -90,56 +90,56 @@ const Node = React.memo(function Node({
   const menuItems: ContextMenuItem[] = [
     ...(player
       ? [
-          {
-            label: "Xem thông tin",
-            onClick: handleViewPlayer,
-            icon: <Eye size={16} />,
-            hint: "Ctrl+I",
-          },
-          {
-            label: "Chỉnh sửa thông tin",
-            onClick: handleEditPlayer,
-            icon: <Edit2 size={16} />,
-            hint: "F2",
-          },
-          ...(nodeStatus !== "won" && onChooseWinner
-            ? [
-                {
-                  label: "Đặt làm người thắng",
-                  onClick: handleSetWinner,
-                  icon: <Crown size={16} />,
-                  hint: "Enter",
-                },
-              ]
-            : []),
-          ...(isTeamContent
-            ? [
-                {
-                  label: useTextIndicator
-                    ? "Hiển thị dạng huy hiệu"
-                    : "Hiển thị dạng chữ nổi",
-                  onClick: toggleLeaderIndicator,
-                  icon: <Crown size={16} />,
-                  hint: "Ctrl+L",
-                },
-              ]
-            : []),
-          { type: "divider" as const, label: "" },
-          {
-            label: "Xóa khỏi trận đấu",
-            onClick: handleRemovePlayer,
-            icon: <Trash2 size={16} />,
-            hint: "Del",
-          },
-        ]
+        {
+          label: "Xem thông tin",
+          onClick: handleViewPlayer,
+          icon: <Eye size={16} />,
+          hint: "Ctrl+I",
+        },
+        {
+          label: "Chỉnh sửa thông tin",
+          onClick: handleEditPlayer,
+          icon: <Edit2 size={16} />,
+          hint: "F2",
+        },
+        ...(nodeStatus !== "won" && onChooseWinner
+          ? [
+            {
+              label: "Đặt làm người thắng",
+              onClick: handleSetWinner,
+              icon: <Crown size={16} />,
+              hint: "Enter",
+            },
+          ]
+          : []),
+        ...(isTeamContent
+          ? [
+            {
+              label: useTextIndicator
+                ? "Hiển thị dạng huy hiệu"
+                : "Hiển thị dạng chữ nổi",
+              onClick: toggleLeaderIndicator,
+              icon: <Crown size={16} />,
+              hint: "Ctrl+L",
+            },
+          ]
+          : []),
+        { type: "divider" as const, label: "" },
+        {
+          label: "Xóa khỏi trận đấu",
+          onClick: handleRemovePlayer,
+          icon: <Trash2 size={16} />,
+          hint: "Del",
+        },
+      ]
       : [
-          {
-            label: "Thêm vận động viên",
-            onClick: handleAddPlayer,
-            icon: <UserPlus size={16} />,
-            hint: "Ctrl+N",
-          },
-        ]),
+        {
+          label: "Thêm vận động viên",
+          onClick: handleAddPlayer,
+          icon: <UserPlus size={16} />,
+          hint: "Ctrl+N",
+        },
+      ]),
   ];
 
   React.useEffect(() => {
@@ -172,28 +172,27 @@ const Node = React.memo(function Node({
       {nodeStatus !== "won" && <div>{player?.sourceNode}</div>}
       <ContextMenu items={menuItems}>
         <div className={`${nodeStatus === "won" ? "node-won" : ""}`}>
-          <div>
-            {nodeStatus === "won" && goalNode && (
-              <div>
-                {goalNode.round}{" "}
-                {targetNode !== undefined && targetNode !== 0
-                  ? `- Trận ${goalNode.match}`
-                  : ""}
-              </div>
-            )}
-          </div>
+
+          {nodeStatus === "won" && goalNode && (
+            <div className="next-match-info">
+              {goalNode.round}{" "}
+              {targetNode !== undefined && targetNode !== 0
+                ? `- Trận ${goalNode.match}`
+                : ""}
+            </div>
+          )}
+
           <div
-            className={`node ${
-              nodeStatus === "won"
-                ? "node-won"
-                : nodeStatus === "chung"
+            className={`node ${nodeStatus === "won"
+              ? "node-won"
+              : nodeStatus === "chung"
                 ? "node-chung"
                 : nodeStatus === "hong"
-                ? "node-hong"
-                : nodeStatus === "waiting"
-                ? "node-waiting"
-                : ""
-            } ${isTeamContent ? "node-team" : ""}`}
+                  ? "node-hong"
+                  : nodeStatus === "waiting"
+                    ? "node-waiting"
+                    : ""
+              } ${isTeamContent ? "node-team" : ""}`}
           >
             {/* Leader indicator cho content đôi nam nữ hoặc đồng đội nam nữ */}
             {isTeamContent && player && (
@@ -212,8 +211,8 @@ const Node = React.memo(function Node({
             {!player
               ? "Đang chờ..."
               : !player.student.name || player.student.name.trim() === ""
-              ? "Nhập họ và tên"
-              : player.student.name}
+                ? "Nhập họ và tên"
+                : player.student.name}
           </div>
         </div>
       </ContextMenu>
