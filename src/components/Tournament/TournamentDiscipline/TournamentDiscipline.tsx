@@ -9,24 +9,26 @@ import type { CombinationDetail } from '@/types/tournament/PoomsaeCombinationTyp
 import TournamentCombination from './TournamentCombination/TournamentCombination';
 import TournamentDetailsSidebar from '../TournamentDetails/TournamentDetailsSidebar/TournamentDetailsSidebar';
 
-// /giai-dau/:idTournament/quyen
+// /giai-dau/:tournamentId/:discipline
 export default function TournamentDiscipline() {
-    const { idTournament } = useParams<{ idTournament: string }>();
-    const { tournamentType } = useParams<{ tournamentType: string }>();
+    const { tournamentId, discipline } = useParams<{
+        tournamentId: string;
+        discipline: string;
+    }>();
 
     const [combinations, setCombinations] = useState<CombinationDetail[]>([]);
 
     useEffect(() => {
-        if (idTournament) {
-            getPoomsaeCombinationsByTournament(idTournament).then(setCombinations);
+        if (tournamentId) {
+            getPoomsaeCombinationsByTournament(tournamentId).then(setCombinations);
         }
-    }, [idTournament]);
+    }, [tournamentId]);
 
-    if (tournamentType !== 'quyen' && tournamentType !== 'doi-khang') {
+    if (discipline !== 'quyen' && discipline !== 'doi-khang') {
         return <div>Invalid tournament type</div>;
     }
 
-    if (!idTournament) {
+    if (!tournamentId) {
         return <div>Loading...</div>;
     }
 
@@ -34,10 +36,10 @@ export default function TournamentDiscipline() {
         <div className="tournament-poomsae--container">
             <TournamentCombination
                 combinations={combinations}
-                idTournament={idTournament!}
-                tournamentType={tournamentType!}
+                tournamentId={tournamentId!}
+                discipline={discipline!}
             />
-            <TournamentDetailsSidebar idTournament={idTournament!} />
+            <TournamentDetailsSidebar tournamentId={tournamentId!} />
         </div>
     );
 }

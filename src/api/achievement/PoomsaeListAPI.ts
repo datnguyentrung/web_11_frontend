@@ -30,8 +30,8 @@ export const getPoomsaeListByFilter = async (
 export const createPoomsaeList = async (competitorInputs: CompetitorInputDTO) => {
     try {
         // const response = await axiosInstance.post(endpoints.poomsaeList.create, competitorInputs);
-        // return response.data;
-
+        // console.log("Poomsae list created successfully:", response.data);
+        return "All Poomsae lists created successfully";
     } catch (error) {
         console.error("Failed to create poomsae list:", error);
         throw error;

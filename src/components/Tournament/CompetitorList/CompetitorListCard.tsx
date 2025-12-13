@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import { Plus, Trophy, Users, Award, AlertCircle } from "lucide-react";
 import { getPoomsaeListByFilter } from "@/api/achievement/PoomsaeListAPI";
 import { getSparringListByFilter } from "@/api/achievement/SparringListAPI";
-import { createPoomsaeHistoryForElimination } from "@/api/tournament/PoomsaeHistoryAPI";
-import { existPoomsaeHistoryByFilter } from "@/api/tournament/PoomsaeHistoryAPI";
+import { createPoomsaeHistoryForElimination } from "@/api/tournament/Poomsae/PoomsaeHistoryAPI";
+import { existPoomsaeHistoryByFilter } from "@/api/tournament/Poomsae/PoomsaeHistoryAPI";
 
 import type { CompetitorBaseDTO } from "@/types/achievement/Competitor";
 import ModalAddAthlete from "./ModalAddAthlete";
@@ -11,15 +11,16 @@ import ModalAddAthlete from "./ModalAddAthlete";
 interface Props {
   tournamentId: string;
   combinationId: string;
+  discipline: string; // "quyen" or "doi-khang"
   combinationName: string;
   tournamentType: "quyen" | "doi-khang";
-}
+};
 
 export default function CompetitorListCard({
   tournamentId,
   combinationId,
+  discipline,
   combinationName,
-  tournamentType,
 }: Props) {
   const [loading, setLoading] = useState<boolean>(false);
   const [competitors, setCompetitors] = useState<CompetitorBaseDTO[]>([]);
@@ -76,31 +77,38 @@ export default function CompetitorListCard({
       }
     };
 
-    if (tournamentType === "quyen") {
+    if (discipline === "quyen") {
       fetchPoomsaeCompetitors();
-    } else if (tournamentType === "doi-khang") {
+    } else if (discipline === "doi-khang") {
       fetchSparringCompetitors();
     }
-  }, [tournamentId, combinationId, tournamentType]);
+  }, [tournamentId, combinationId, discipline]);
 
-  const handleCreateBracket = async (): Promise<void> => {
-    if (tournamentType === "quyen" && competitors.length > 0) {
-      try {
-        await createPoomsaeHistoryForElimination(
-          competitors.map((c) => c.idCompetitor!)
-        );
-        console.log("Bảng đấu quyền đã được tạo thành công");
-      } catch (error) {
-        console.error("Lỗi khi tạo bảng đấu quyền:", error);
-      }
-    } else if (tournamentType === "doi-khang") {
-      // TODO: Gọi API để tạo bảng đấu đối kháng
+  const handleCreateBracket = () => {
+    if (discipline === "quyen" && competitors.length > 0) {
+      // Gọi API để tạo bảng đấu quyền
+      createPoomsaeHistoryForElimination(
+        competitors.map((c) => c.idCompetitor!)
+      )
+        .then(() => {
+          console.log("Bảng đấu quyền đã được tạo thành công");
+        })
+        .catch((error) => {
+          console.error("Lỗi khi tạo bảng đấu quyền:", error);
+        });
+    } else if (discipline === "doi-khang") {
+      // Gọi API để tạo bảng đấu đối kháng
     }
   };
 
   const handleViewBracket = (): void => {
     console.log("View bracket clicked");
   };
+
+  // Kiểm tra xem tournamentType có hợp lệ không
+  if (discipline !== "quyen" && discipline !== "doi-khang") {
+    return <div>Loại giải đấu không hợp lệ</div>;
+  }
 
   if (loading) {
     return (
@@ -119,14 +127,26 @@ export default function CompetitorListCard({
     tournamentType === "quyen" ? "Quyền" : "Đối Kháng";
 
   return (
-    <div className="max-w-7xl mx-auto p-6">
-      {/* Header Section */}
-      <div className="bg-gradient-to-r from-[#fb2c36] to-[#e7202a] rounded-xl shadow-lg p-6 mb-6">
-        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
-          <div className="text-white">
-            <div className="flex items-center gap-3 mb-2">
-              <Users className="w-8 h-8" />
-              <h2 className="text-2xl font-bold">Danh Sách Vận Động Viên</h2>
+    <div className="competitor-list">
+      <div className="competitor-list__header">
+        <div className="competitor-list__title-section">
+          <h2>Danh Sách Vận Động Viên</h2>
+          <p>
+            Loại giải: {discipline === "quyen" ? "Quyền" : "Đối Kháng"} -{" "}
+            {combinationName}
+          </p>
+        </div>
+        <div className="competitor-list__actions">
+          <button
+            className="competitor-list__action competitor-list__action--secondary"
+            onClick={showModal}
+          >
+            <Plus className="competitor-list__action-icon" />
+            Thêm vận động viên
+          </button>
+          {competitors.length === 0 ? (
+            <div className="competitor-list__info-message">
+              Chưa có vận động viên nào để tạo bảng đấu
             </div>
             <p className="text-[#fff] flex items-center gap-2">
               <Award className="w-4 h-4" />
@@ -182,10 +202,9 @@ export default function CompetitorListCard({
         handleCancel={handleCancel}
         tournamentId={tournamentId}
         combinationId={combinationId}
-        combinationType={tournamentType}
-      />
-
-      {/* Competitors Grid */}
+        combinationType={discipline}
+        competitors={competitors}
+      ></ModalAddAthlete>
       {competitors.length === 0 ? (
         <div className="bg-gray-50 border-2 border-dashed border-gray-300 rounded-xl p-12 text-center">
           <Users className="w-16 h-16 text-gray-400 mx-auto mb-4" />

@@ -8,15 +8,15 @@ export const fetchGetPoomsaeListByFilter = {
             "competitorDetailDTO": {
                 "personalAcademicInfo": {
                     "personalInfo": {
-                        "name": "Ngô Khải Nguyên",
-                        "idAccount": "TKD13GS001",
-                        "idNational": "HV_nguyennk_290709",
-                        "birthDate": "2011-05-01",
+                        "name": "Trương Quỳnh Chi",
+                        "idAccount": "TKD13GS017",
+                        "idNational": "HV_chitq_170612",
+                        "birthDate": "2013-05-01",
                         "isActive": true
                     },
                     "academicInfo": {
                         "idBranch": 1,
-                        "beltLevel": "I_DANG",
+                        "beltLevel": "II_DANG",
                         "classSessions": []
                     }
                 },

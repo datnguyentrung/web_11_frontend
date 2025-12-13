@@ -13,6 +13,12 @@ export const endpoints = {
         update: (tournamentId: string) => `${API_VERSION_1}/tournaments/${tournamentId}`,
         delete: (tournamentId: string) => `${API_VERSION_1}/tournaments/${tournamentId}`,
     },
+    tournamentMatch: {
+        create: `${API_VERSION_1}/tournament-matches`,
+    },
+    bracketNodes: {
+        byParticipants: (participants: number) => `${API_VERSION_1}/bracket-nodes/participants/${participants}`,
+    },
     poomsaeCombinations: {
         list: `${API_VERSION_1}/poomsae-combinations`,
         byTournament: `${API_VERSION_1}/poomsae-combinations/tournament`,
@@ -28,8 +34,16 @@ export const endpoints = {
         create: `${API_VERSION_1}/sparring-lists`,
     },
     poomsaeHistory: {
+        delete: (id: string) => `${API_VERSION_1}/poomsae-histories/${id}`,
         createForElimination: `${API_VERSION_1}/poomsae-histories/elimination`,
+        createWinnerForElimination: `${API_VERSION_1}/poomsae-histories/elimination/winner`,
         existByFilter: `${API_VERSION_1}/poomsae-histories/exists`,
+        filter: `${API_VERSION_1}/poomsae-histories/filter`,
+    },
+    sparringHistory: {
+        delete: (id: string) => `${API_VERSION_1}/sparring-histories/${id}`,
+        create: `${API_VERSION_1}/sparring-histories/elimination`,
+        existByFilter: `${API_VERSION_1}/sparring-histories/exists`,
     },
     student: {
         search: `${API_VERSION_1}/students/search`,

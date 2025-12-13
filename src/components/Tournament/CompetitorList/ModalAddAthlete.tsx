@@ -3,7 +3,7 @@ import { Modal, Input, List, Tag, Spin } from "antd";
 import { SearchOutlined, LoadingOutlined } from "@ant-design/icons";
 
 import type { Student } from '@/types/training/StudentType';
-import type { CompetitorInputDTO } from '@/types/achievement/Competitor';
+import type { CompetitorInputDTO, CompetitorBaseDTO } from '@/types/achievement/Competitor';
 
 import { searchStudents } from '@/api/training/StudentAPI';
 import { createPoomsaeList } from "@/api/achievement/PoomsaeListAPI";
@@ -16,9 +16,10 @@ type PropType = {
   tournamentId: string;
   combinationId: string;
   combinationType: string;
+  competitors: CompetitorBaseDTO[];
 };
 
-// Search chỉ tra tên 'Chi' hoặc tương tự em nhé, không cần gõ full tên
+// Search chỉ tra tên 'Chi' hoặc tương tự, không cần gõ full tên
 
 export default function ModalAddAthlete({
   isModalOpen,
@@ -26,7 +27,8 @@ export default function ModalAddAthlete({
   handleCancel,
   tournamentId,
   combinationId,
-  combinationType,
+  combinationType, // "quyen" or "doi-khang"
+  competitors,
 }: PropType) {
   const [searchValue, setSearchValue] = useState("");
   const [selectedAthlete, setSelectedAthlete] = useState<Student[]>([]);
@@ -80,7 +82,7 @@ export default function ModalAddAthlete({
     }, 300); // <--- Đợi 300ms sau khi ngừng gõ mới chạy hàm bên trong
 
     return () => clearTimeout(timerId); // <--- Clear timeout khi searchValue thay đổi hoặc component unmount
-  }, [searchValue]);
+  }, [searchValue, selectedAthlete]);
 
   const handleAddAthlete = (student: Student) => {
     setSelectedAthlete([...selectedAthlete, student]);
@@ -106,6 +108,7 @@ export default function ModalAddAthlete({
         console.log("Đã thêm vận động viên vào sparring list:", competitorInputs);
       } catch (error) {
         console.error("Lỗi khi thêm vận động viên vào sparring list:", error);
+        throw error; // Ném lỗi để component cha có thể xử lý nếu cần
       }
     } else if (combinationType === "quyen") {
       try {
@@ -114,7 +117,11 @@ export default function ModalAddAthlete({
         console.log("Đã thêm vận động viên vào poomsae list:", competitorInputs);
       } catch (error) {
         console.error("Lỗi khi thêm vận động viên vào poomsae list:", error);
+        throw error; // Ném lỗi để component cha có thể xử lý nếu cần
       }
+    } else {
+      console.error("Loại kết hợp không hợp lệ:", combinationType);
+      throw new Error("Invalid combination type");
     }
   };
 
@@ -179,7 +186,10 @@ export default function ModalAddAthlete({
               overflow: "auto",
               backgroundColor: "#fff",
             }}
-            dataSource={filteredAthlete}
+            dataSource={filteredAthlete.filter((item: Student) =>
+              !selectedAthlete.some((s) => s.personalInfo.idAccount === item.personalInfo.idAccount) &&
+              !competitors.some((c) => c.competitorDetailDTO.personalAcademicInfo.personalInfo.idAccount === item.personalInfo.idAccount)
+            )}
             renderItem={(student) => (
               <List.Item
                 style={{ cursor: "pointer", padding: "8px 12px" }}
@@ -194,7 +204,7 @@ export default function ModalAddAthlete({
                 <div>
                   <strong>{student.personalInfo.name}</strong>
                   <span style={{ marginLeft: 8, color: "#888" }}>
-                    ({student.academicInfo.idBranch})
+                    (Cơ sở {student.academicInfo.idBranch})
                   </span>
                 </div>
               </List.Item>
@@ -219,7 +229,7 @@ export default function ModalAddAthlete({
                 color="blue"
                 style={{ fontSize: 14, padding: "4px 8px" }}
               >
-                {athlete.personalInfo.name} ({athlete.academicInfo.idBranch})
+                {athlete.personalInfo.name} (Cơ sở {athlete.academicInfo.idBranch})
               </Tag>
             ))}
           </div>
