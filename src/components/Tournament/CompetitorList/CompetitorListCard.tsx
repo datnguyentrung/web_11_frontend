@@ -3,8 +3,8 @@ import { useEffect, useState } from "react";
 import { Plus, Trophy } from "lucide-react";
 import { getPoomsaeListByFilter } from "@/api/achievement/PoomsaeListAPI";
 import { getSparringListByFilter } from "@/api/achievement/SparringListAPI";
-import { createPoomsaeHistoryForElimination } from "@/api/tournament/PoomsaeHistoryAPI";
-import { existPoomsaeHistoryByFilter } from "@/api/tournament/PoomsaeHistoryAPI";
+import { createPoomsaeHistoryForElimination } from "@/api/tournament/Poomsae/PoomsaeHistoryAPI";
+import { existPoomsaeHistoryByFilter } from "@/api/tournament/Poomsae/PoomsaeHistoryAPI";
 
 import type { CompetitorBaseDTO } from "@/types/achievement/Competitor";
 import ModalAddAthlete from "./ModalAddAthlete";
@@ -12,15 +12,15 @@ import ModalAddAthlete from "./ModalAddAthlete";
 type Props = {
   tournamentId: string;
   combinationId: string;
+  discipline: string; // "quyen" or "doi-khang"
   combinationName: string;
-  tournamentType: string;
 };
 
 export default function CompetitorListCard({
   tournamentId,
   combinationId,
+  discipline,
   combinationName,
-  tournamentType,
 }: Props) {
   const [loading, setLoading] = useState(false);
   const [competitors, setCompetitors] = useState<CompetitorBaseDTO[]>([]);
@@ -80,15 +80,15 @@ export default function CompetitorListCard({
       }
     };
 
-    if (tournamentType === "quyen") {
+    if (discipline === "quyen") {
       fetchPoomsaeCompetitors();
-    } else if (tournamentType === "doi-khang") {
+    } else if (discipline === "doi-khang") {
       fetchSparringCompetitors();
     }
-  }, [tournamentId, combinationId, tournamentType]);
+  }, [tournamentId, combinationId, discipline]);
 
   const handleCreateBracket = () => {
-    if (tournamentType === "quyen" && competitors.length > 0) {
+    if (discipline === "quyen" && competitors.length > 0) {
       // Gọi API để tạo bảng đấu quyền
       createPoomsaeHistoryForElimination(
         competitors.map((c) => c.idCompetitor!)
@@ -99,7 +99,7 @@ export default function CompetitorListCard({
         .catch((error) => {
           console.error("Lỗi khi tạo bảng đấu quyền:", error);
         });
-    } else if (tournamentType === "doi-khang") {
+    } else if (discipline === "doi-khang") {
       // Gọi API để tạo bảng đấu đối kháng
     }
   };
@@ -109,7 +109,7 @@ export default function CompetitorListCard({
   };
 
   // Kiểm tra xem tournamentType có hợp lệ không
-  if (tournamentType !== "quyen" && tournamentType !== "doi-khang") {
+  if (discipline !== "quyen" && discipline !== "doi-khang") {
     return <div>Loại giải đấu không hợp lệ</div>;
   }
 
@@ -123,7 +123,7 @@ export default function CompetitorListCard({
         <div className="competitor-list__title-section">
           <h2>Danh Sách Vận Động Viên</h2>
           <p>
-            Loại giải: {tournamentType === "quyen" ? "Quyền" : "Đối Kháng"} -{" "}
+            Loại giải: {discipline === "quyen" ? "Quyền" : "Đối Kháng"} -{" "}
             {combinationName}
           </p>
         </div>
@@ -166,7 +166,7 @@ export default function CompetitorListCard({
         handleCancel={handleCancel}
         tournamentId={tournamentId}
         combinationId={combinationId}
-        combinationType={tournamentType}
+        combinationType={discipline}
         competitors={competitors}
       ></ModalAddAthlete>
       {competitors.length === 0 ? (

@@ -1,19 +1,18 @@
 import './Node.scss'
 import type { SigmaData } from '@/types/tournament/SigmaType';
-import type { PoomsaeHistory } from '@/types/tournament/PoomsaeType';
-import type { SparringHistory } from '@/types/tournament/SparringType';
+import type { HistoryInfo } from '@/types/tournament/TournamentType';
 import { PoomsaeSigmaLocalStorage } from '@/utils/PoomsaeSigmaStorage';
 import React from 'react';
 import { Edit2, Trash2, Eye, Crown, UserPlus } from 'lucide-react';
 import ContextMenu, { type ContextMenuItem } from '@/utils/ContextMenu';
 
 type Props = {
-    player?: PoomsaeHistory | SparringHistory,
+    player?: HistoryInfo,
     nodeStatus: string, // 'won', 'chung', 'hong', 'waiting'
     targetNode?: number,
     participants?: number,
-    onChooseWinner?: (player: PoomsaeHistory | SparringHistory) => void,
-    onDeleteNode?: (player: PoomsaeHistory | SparringHistory) => void,
+    onChooseWinner?: (player: HistoryInfo) => void,
+    onDeleteNode?: (player: HistoryInfo) => void,
     content?: string,
     onRefresh?: () => Promise<void>,
 }
@@ -33,14 +32,14 @@ const Node = React.memo(function Node({ player, nodeStatus, targetNode, particip
     // Context Menu Handlers
     const handleViewPlayer = () => {
         if (player) {
-            console.log("Xem thông tin player:", player.referenceInfo.name);
+            console.log("Xem thông tin player:", player.student.name);
             // TODO: Implement view player details modal
         }
     };
 
     const handleEditPlayer = () => {
         if (player) {
-            console.log("Chỉnh sửa player:", player.referenceInfo.name);
+            console.log("Chỉnh sửa player:", player.student.name);
             // TODO: Implement edit player modal
         }
     };
@@ -48,7 +47,7 @@ const Node = React.memo(function Node({ player, nodeStatus, targetNode, particip
     const handleSetWinner = React.useCallback(async () => {
         if (player && onChooseWinner) {
             onChooseWinner(player);
-            console.log("Đặt làm người thắng:", player.referenceInfo.name);
+            console.log("Đặt làm người thắng:", player.student.name);
 
             // Re-fetch data sau khi thay đổi
             if (onRefresh) {
@@ -59,7 +58,7 @@ const Node = React.memo(function Node({ player, nodeStatus, targetNode, particip
 
     const handleRemovePlayer = React.useCallback(async () => {
         if (player && onDeleteNode) {
-            console.log("Xóa player:", player.referenceInfo.name);
+            console.log("Xóa player:", player.student.name);
             onDeleteNode(player);
 
             // Re-fetch data sau khi xóa
@@ -146,7 +145,7 @@ const Node = React.memo(function Node({ player, nodeStatus, targetNode, particip
     return (
         <div className='node-container'>
             {/* Note: Winner selection is now only available through Context Menu → "Đặt làm người thắng" */}
-            {nodeStatus !== 'won' && <div>{player?.nodeInfo.sourceNode}</div>}
+            {nodeStatus !== 'won' && <div>{player?.sourceNode}</div>}
             <ContextMenu items={menuItems}>
                 <div className={`${nodeStatus === 'won' ? 'node-won' : ''}`}>
                     <div>
@@ -176,9 +175,9 @@ const Node = React.memo(function Node({ player, nodeStatus, targetNode, particip
                         {/* {player && player.name ? player.name : 'Nhập họ và tên' ?  : 'Đang chờ...'} */}
                         {!player
                             ? 'Đang chờ...'
-                            : !player.referenceInfo.name || player.referenceInfo.name.trim() === ''
+                            : !player.student.name || player.student.name.trim() === ''
                                 ? 'Nhập họ và tên'
-                                : player.referenceInfo.name}
+                                : player.student.name}
                     </div>
                 </div>
             </ContextMenu>

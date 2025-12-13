@@ -1,23 +1,24 @@
+import React from 'react';
 import './NodeGroup.scss'
-import Node from "./Node";
-import PlayerNode from "./PlayerNode";
-import type { PoomsaeHistory } from '@/types/tournament/PoomsaeType';
-import type { SparringHistory } from '@/types/tournament/SparringType';
-import type { ContextMenuItem } from '@/utils/ContextMenu';
+import { toast } from 'react-toastify';
+import { ArrowBigRight, UserPlus } from 'lucide-react';
+
+import type { HistoryInfo } from '@/types/tournament/TournamentType';
 import type { TournamentMatchDTO } from '@/types/tournament/TournamentMatchType';
 
-import { ArrowBigRight, UserPlus } from 'lucide-react';
-import YesNoQuestion from './YesNoQuestion';
-import React from 'react';
+import type { ContextMenuItem } from '@/utils/ContextMenu';
 import { isPoomsaeHistory } from '@/utils/PoomsaeCheck';
 import ContextMenu from '@/utils/ContextMenu';
 
-import { createTournamentMatch } from '@/services/tournament/TournamentMatch';
-import { toast } from 'react-toastify';
+import { createTournamentMatch } from '@/api/tournament/TournamentMatchAPI';
+
+import Node from "./Node";
+import PlayerNode from "./PlayerNode";
+import YesNoQuestion from './YesNoQuestion';
 
 interface NodeGroupProps {
-    player1?: PoomsaeHistory | SparringHistory;
-    player2?: PoomsaeHistory | SparringHistory;
+    player1?: HistoryInfo;
+    player2?: HistoryInfo;
     numberMatch?: number;
     targetNode?: number;
     participants?: number;
@@ -29,13 +30,13 @@ type ModalMode = 'winner' | 'delete';
 
 const NodeGroup = React.memo(function NodeGroup({ player1, player2, numberMatch, targetNode, participants, content, onRefresh }: NodeGroupProps) {
     const [showConfirmModal, setShowConfirmModal] = React.useState<boolean>(false);
-    const [selectedPlayer, setSelectedPlayer] = React.useState<PoomsaeHistory | SparringHistory | null>(null);
+    const [selectedPlayer, setSelectedPlayer] = React.useState<HistoryInfo | null>(null);
     const [modalMode, setModalMode] = React.useState<ModalMode>('winner');
 
     /**
      * Handles winner selection for a player
      */
-    const handleChooseWinner = React.useCallback((player: PoomsaeHistory | SparringHistory) => {
+    const handleChooseWinner = React.useCallback((player: HistoryInfo) => {
         setSelectedPlayer(player);
         setModalMode('winner');
         setShowConfirmModal(true);
@@ -44,7 +45,7 @@ const NodeGroup = React.memo(function NodeGroup({ player1, player2, numberMatch,
     /**
      * Handles delete request for a player
      */
-    const handleDeleteNode = React.useCallback((player: PoomsaeHistory | SparringHistory) => {
+    const handleDeleteNode = React.useCallback((player: HistoryInfo) => {
         setSelectedPlayer(player);
         setModalMode('delete');
         setShowConfirmModal(true);
@@ -58,10 +59,10 @@ const NodeGroup = React.memo(function NodeGroup({ player1, player2, numberMatch,
 
         if (modalMode === 'winner') {
             // TODO: Implement winner logic
-            console.log("Winner confirmed:", selectedPlayer.referenceInfo.name);
+            console.log("Winner confirmed:", selectedPlayer.student.name);
         } else {
             // TODO: Implement delete logic
-            console.log("Node deletion confirmed:", selectedPlayer.referenceInfo.name);
+            console.log("Node deletion confirmed:", selectedPlayer.student.name);
         }
 
         setShowConfirmModal(false);
@@ -87,9 +88,9 @@ const NodeGroup = React.memo(function NodeGroup({ player1, player2, numberMatch,
         const newMatch: TournamentMatchDTO = {
             keyInfo: {
                 tournament: 'a8d5c830-c275-41b0-a251-294eb61c007f', // Thay thế bằng ID giải đấu thực tế
-                idCombination: isPoomsae
-                    ? (player1?.referenceInfo.poomsaeCombination ?? player2?.referenceInfo.poomsaeCombination ?? '')
-                    : (player1?.referenceInfo.sparringCombination ?? player2?.referenceInfo.sparringCombination ?? ''),
+                // idCombination: isPoomsae
+                //     ? (player1?.referenceInfo.poomsaeCombination ?? player2?.referenceInfo.poomsaeCombination ?? '')
+                //     : (player1?.referenceInfo.sparringCombination ?? player2?.referenceInfo.sparringCombination ?? ''),
                 targetNode: targetNode !== undefined ? targetNode : 0,
                 participants: participants !== undefined ? participants : 0,
             },

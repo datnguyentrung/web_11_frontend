@@ -27,7 +27,7 @@ export default function ModalAddAthlete({
   handleCancel,
   tournamentId,
   combinationId,
-  combinationType,
+  combinationType, // "quyen" or "doi-khang"
   competitors,
 }: PropType) {
   const [searchValue, setSearchValue] = useState("");

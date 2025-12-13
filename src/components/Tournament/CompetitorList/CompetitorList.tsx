@@ -4,16 +4,17 @@ import CompetitorListCard from "./CompetitorListCard";
 import TournamentDetailsSidebar from "../TournamentDetails/TournamentDetailsSidebar/TournamentDetailsSidebar";
 
 export default function CompetitorList() {
-  const { tournamentType } = useParams<{ tournamentType: string }>(); // "quyen" or "doi-khang"
-  const [searchParams] = useSearchParams();
+  const { tournamentId, discipline, combinationId } = useParams<{
+    tournamentId: string;
+    discipline: string;
+    combinationId: string;
+  }>();
 
-  // Lấy search params từ URL
-  const tournamentId = searchParams.get("tournament"); // "5df55583-..."
-  const combinationId = searchParams.get("combination_id"); // "05a8f93d-..."
-  const combinationName = searchParams.get("combination_name"); // "Hạng A - Nam"
+  const [searchParams] = useSearchParams();
+  const combinationName = searchParams.get("combination_name");
 
   // Kiểm tra xem các tham số có hợp lệ không
-  if (!tournamentId || !combinationId || !tournamentType) {
+  if (!tournamentId || !combinationId || !discipline) {
     return <div className="competitor-list--error">Invalid parameters</div>;
   }
 
@@ -22,11 +23,11 @@ export default function CompetitorList() {
       <CompetitorListCard
         tournamentId={tournamentId!}
         combinationId={combinationId!}
+        discipline={discipline!}
         combinationName={combinationName!}
-        tournamentType={tournamentType!}
       />
 
-      <TournamentDetailsSidebar idTournament={tournamentId!} />
+      <TournamentDetailsSidebar tournamentId={tournamentId!} />
     </div>
   );
 }
