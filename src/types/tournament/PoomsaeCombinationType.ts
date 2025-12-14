@@ -16,3 +16,8 @@ export interface CombinationDetail {
     ageGroupDTO: AgeGroupDTO;
     poomsaeMode: PoomsaeModeKey;
 }
+
+export interface CheckModeResponse {
+    exists: boolean;
+    poomsaeMode: PoomsaeModeKey | null;
+}

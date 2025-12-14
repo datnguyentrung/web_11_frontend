@@ -87,6 +87,7 @@ const PlayerNode: React.FC<PlayerNodeProps> = React.memo(({
                 nodeStatus={nodeStatus}
                 participants={participants}
                 onChooseWinner={onChooseWinner}
+                onDeleteNode={onDeleteNode}
                 content={content}
                 onRefresh={onRefresh}
             />

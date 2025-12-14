@@ -27,7 +27,7 @@ export default function CompetitorList() {
         combinationName={combinationName!}
       />
 
-      <TournamentDetailsSidebar tournamentId={tournamentId!} />
+      <TournamentDetailsSidebar idTournament={tournamentId!} />
     </div>
   );
 }

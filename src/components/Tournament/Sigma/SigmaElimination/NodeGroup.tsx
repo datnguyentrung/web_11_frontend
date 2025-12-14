@@ -37,6 +37,7 @@ const NodeGroup = React.memo(function NodeGroup({ player1, player2, numberMatch,
      * Handles winner selection for a player
      */
     const handleChooseWinner = React.useCallback((player: HistoryInfo) => {
+        console.log("Chosen winner:", player.student.name);
         setSelectedPlayer(player);
         setModalMode('winner');
         setShowConfirmModal(true);
@@ -46,6 +47,7 @@ const NodeGroup = React.memo(function NodeGroup({ player1, player2, numberMatch,
      * Handles delete request for a player
      */
     const handleDeleteNode = React.useCallback((player: HistoryInfo) => {
+        console.log("Delete node for player:", player.student.name);
         setSelectedPlayer(player);
         setModalMode('delete');
         setShowConfirmModal(true);

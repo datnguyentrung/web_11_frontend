@@ -7,8 +7,8 @@ import type { CompetitorInputDTO } from '@/types/achievement/Competitor';
 export const getPoomsaeListByFilter = async (
     idTournament: string,
     idCombination: string,
-    idBranch: number | null,
-    idAccount: string | null
+    idBranch?: number,
+    idAccount?: string
 ) => {
     try {
         // const response = await axiosInstance.get(endpoints.poomsaeList.byFilter, {

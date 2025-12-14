@@ -5,8 +5,8 @@ import type { CompetitorInputDTO } from '@/types/achievement/Competitor';
 export const getSparringListByFilter = async (
     idTournament: string,
     idCombination: string,
-    idBranch: number | null,
-    idAccount: string | null
+    idBranch?: number,
+    idAccount?: string
 ) => {
     try {
         const response = await axiosInstance.get(endpoints.sparringList.byFilter, {

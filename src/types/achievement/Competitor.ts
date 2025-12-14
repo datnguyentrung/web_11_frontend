@@ -1,4 +1,4 @@
-import type { Student } from "../training/StudentType";
+import type { PersonalInfo } from "../training/StudentType";
 
 export interface CompetitorInputDTO {
     idAccounts: string[];
@@ -6,9 +6,9 @@ export interface CompetitorInputDTO {
 }
 
 export interface CompetitorDetailDTO {
-    personalAcademicInfo: Student;
+    idCompetitor: string;
+    personalInfo: PersonalInfo;
     medal: string | null;
-    competition: CompetitionDTO;
 }
 
 export interface CompetitionDTO {
@@ -17,6 +17,6 @@ export interface CompetitionDTO {
 }
 
 export interface CompetitorBaseDTO {
-    idCompetitor: string;
-    competitorDetailDTO: CompetitorDetailDTO;
+    competitionDTO: CompetitionDTO;
+    competitorDetailDTO: CompetitorDetailDTO[];
 }

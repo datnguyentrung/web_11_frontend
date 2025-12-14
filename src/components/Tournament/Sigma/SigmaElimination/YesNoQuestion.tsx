@@ -74,16 +74,16 @@ export default function YesNoQuestion({ isOpen, mode, player, participants, onCo
     const getModalContent = () => {
         if (mode === 'winner') {
             return {
-                title: 'Xác nhận người chiến thắng',
-                message: `Bạn có chắc chắn muốn chọn ${player.student.name} là người chiến thắng không?`,
+                title: 'Xác nhận kết quả',
+                message: `Xác nhận người chơi được chọn là người thắng?`,
                 confirmText: 'Xác nhận',
                 confirmClass: 'btn-confirm-winner'
             };
         } else {
             return {
-                title: 'Xác nhận xóa node',
-                message: `Bạn có chắc chắn muốn xóa node của ${player.student.name} không?`,
-                confirmText: 'Xóa',
+                title: 'Hủy kết quả thắng',
+                message: `Bạn xác nhận xóa trạng thái thắng ?`,
+                confirmText: 'Hoàn tác',
                 confirmClass: 'btn-confirm-delete'
             };
         }
@@ -120,7 +120,7 @@ export default function YesNoQuestion({ isOpen, mode, player, participants, onCo
 
                 <div className="modal-actions">
                     <button className="btn-cancel" onClick={onCancel}>
-                        Hủy
+                        Đóng
                     </button>
                     <button className={`btn-confirm ${modalContent.confirmClass}`} onClick={handleConfirm}>
                         {modalContent.confirmText}

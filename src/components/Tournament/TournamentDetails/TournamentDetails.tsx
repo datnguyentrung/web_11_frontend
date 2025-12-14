@@ -256,7 +256,7 @@ export default function TournamentDetails() {
                     {/* Sidebar */}
                     <div className="tournament-details__sidebar">
                         <div className="sticky">
-                            <TournamentDetailsSidebar tournamentId={tournamentId!} />
+                            <TournamentDetailsSidebar idTournament={tournamentId!} />
                         </div>
                     </div>
                 </div>

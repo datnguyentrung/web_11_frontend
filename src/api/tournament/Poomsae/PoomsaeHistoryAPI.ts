@@ -1,5 +1,6 @@
 import { endpoints } from '@/api/endpoints';
 import axiosInstance from '@/api/axiosInstance';
+import type { CheckModeResponse } from '@/types/tournament/PoomsaeCombinationType';
 
 export const createPoomsaeHistoryForElimination = async (competitorList: string[]) => {
     try {
@@ -14,21 +15,24 @@ export const createPoomsaeHistoryForElimination = async (competitorList: string[
     }
 }
 
-export const existPoomsaeHistoryByFilter = async (
+export const checkModePoomsaeHistoryExistence = async (
     idTournament: string,
     idCombination: string,
-    idAccount: string | null
-): Promise<boolean> => {
+    idAccount?: string
+): Promise<CheckModeResponse> => {
     try {
-        // const response = await axiosInstance.get(endpoints.poomsaeHistory.existByFilter, {
+        // const response = await axiosInstance.get(endpoints.poomsaeHistory.checkExistence, {
         //     params: {
         //         idTournament,
         //         idCombination,
         //         idAccount
         //     }
         // });
-        // return response.data.data as boolean;
-        return true;
+        // return response.data.data;
+        return {
+            "exists": true,
+            "poomsaeMode": "ELIMINATION"
+        };
     } catch (error) {
         console.error('Error checking existence of poomsae history by filter:', error);
         throw error;

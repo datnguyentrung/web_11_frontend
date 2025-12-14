@@ -3,7 +3,7 @@ import { Modal, Input, List, Tag, Spin } from "antd";
 import { SearchOutlined, LoadingOutlined } from "@ant-design/icons";
 
 import type { Student } from '@/types/training/StudentType';
-import type { CompetitorInputDTO, CompetitorBaseDTO } from '@/types/achievement/Competitor';
+import type { CompetitorInputDTO, CompetitorDetailDTO } from '@/types/achievement/Competitor';
 
 import { searchStudents } from '@/api/training/StudentAPI';
 import { createPoomsaeList } from "@/api/achievement/PoomsaeListAPI";
@@ -16,7 +16,7 @@ type PropType = {
   tournamentId: string;
   combinationId: string;
   combinationType: string;
-  competitors: CompetitorBaseDTO[];
+  competitors: CompetitorDetailDTO[];
 };
 
 // Search chỉ tra tên 'Chi' hoặc tương tự, không cần gõ full tên
@@ -188,7 +188,7 @@ export default function ModalAddAthlete({
             }}
             dataSource={filteredAthlete.filter((item: Student) =>
               !selectedAthlete.some((s) => s.personalInfo.idAccount === item.personalInfo.idAccount) &&
-              !competitors.some((c) => c.competitorDetailDTO.personalAcademicInfo.personalInfo.idAccount === item.personalInfo.idAccount)
+              !competitors.some((c) => c.personalInfo.idAccount === item.personalInfo.idAccount)
             )}
             renderItem={(student) => (
               <List.Item

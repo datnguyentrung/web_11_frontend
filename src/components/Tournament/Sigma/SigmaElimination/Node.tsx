@@ -3,7 +3,7 @@ import type { SigmaData } from "@/types/tournament/SigmaType";
 import type { HistoryInfo } from "@/types/tournament/TournamentType";
 import { PoomsaeSigmaLocalStorage } from "@/utils/PoomsaeSigmaStorage";
 import React from "react";
-import { Edit2, Trash2, Eye, Crown, UserPlus } from "lucide-react";
+import { Trash2, Eye, Crown, UserPlus } from "lucide-react";
 import ContextMenu, { type ContextMenuItem } from "@/utils/ContextMenu";
 
 type Props = {
@@ -43,13 +43,6 @@ const Node = React.memo(function Node({
     if (player) {
       console.log("Xem thông tin player:", player.student.name);
       // TODO: Implement view player details modal
-    }
-  };
-
-  const handleEditPlayer = () => {
-    if (player) {
-      console.log("Chỉnh sửa player:", player.student.name);
-      // TODO: Implement edit player modal
     }
   };
 
@@ -96,16 +89,10 @@ const Node = React.memo(function Node({
           icon: <Eye size={16} />,
           hint: "Ctrl+I",
         },
-        {
-          label: "Chỉnh sửa thông tin",
-          onClick: handleEditPlayer,
-          icon: <Edit2 size={16} />,
-          hint: "F2",
-        },
         ...(nodeStatus !== "won" && onChooseWinner
           ? [
             {
-              label: "Đặt làm người thắng",
+              label: "Thắng",
               onClick: handleSetWinner,
               icon: <Crown size={16} />,
               hint: "Enter",
@@ -124,13 +111,17 @@ const Node = React.memo(function Node({
             },
           ]
           : []),
-        { type: "divider" as const, label: "" },
-        {
-          label: "Xóa khỏi trận đấu",
-          onClick: handleRemovePlayer,
-          icon: <Trash2 size={16} />,
-          hint: "Del",
-        },
+        ...(player.hasWon && onDeleteNode
+          ? [
+            { type: "divider" as const, label: "" },
+            {
+              label: "Hủy kết quả thắng",
+              onClick: handleRemovePlayer,
+              icon: <Trash2 size={16} />,
+              hint: "Del",
+            },
+          ]
+          : []),
       ]
       : [
         {
