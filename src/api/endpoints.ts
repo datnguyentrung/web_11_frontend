@@ -36,7 +36,7 @@ export const endpoints = {
     poomsaeHistory: {
         delete: (id: string) => `${API_VERSION_1}/poomsae-histories/${id}`,
         createForElimination: `${API_VERSION_1}/poomsae-histories/elimination`,
-        createWinnerForElimination: `${API_VERSION_1}/poomsae-histories/elimination/winner`,
+        createWinnerForElimination: (winnerId: string) => `${API_VERSION_1}/poomsae-histories/elimination/winner/${winnerId}`,
         checkExistence: `${API_VERSION_1}/poomsae-histories/check-existence`,
         filter: `${API_VERSION_1}/poomsae-histories/filter`,
     },

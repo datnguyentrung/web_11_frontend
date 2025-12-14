@@ -111,7 +111,7 @@ const Node = React.memo(function Node({
             },
           ]
           : []),
-        ...(player.hasWon && onDeleteNode
+        ...(onDeleteNode
           ? [
             { type: "divider" as const, label: "" },
             {

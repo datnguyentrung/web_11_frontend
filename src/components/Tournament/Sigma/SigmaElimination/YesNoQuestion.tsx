@@ -1,6 +1,7 @@
 import './YesNoQuestion.scss'
 import { createPortal } from 'react-dom';
 import React from 'react';
+import { useParams } from 'react-router-dom';
 
 import type { HistoryInfo } from '@/types/tournament/TournamentType';
 
@@ -19,6 +20,8 @@ type Props = {
 }
 
 export default function YesNoQuestion({ isOpen, mode, player, participants, onConfirm, onCancel }: Props) {
+    const { discipline } = useParams<{ discipline: string }>();
+
     // Xử lý phím ESC để đóng modal
     React.useEffect(() => {
         const handleEscapeKey = (e: KeyboardEvent) => {
@@ -42,18 +45,21 @@ export default function YesNoQuestion({ isOpen, mode, player, participants, onCo
     if (!isOpen || !player) return null;
 
     const handleConfirm = async () => {
+        console.log("hello 1")
         try {
-            if ('idPoomsaeHistory' in player) {
+            if (discipline === 'quyen') {
+                console.log("hello 2")
                 // player là PoomsaeHistory
                 if (mode === 'winner') {
-                    await createPoomsaeEliminationWinner(player.idHistory, participants || 0);
+                    console.log("hello 3")
+                    await createPoomsaeEliminationWinner(player.idHistory);
                     console.log('Poomsae winner confirmed:', player.student?.name);
                 } else if (mode === 'delete') {
                     await deletePoomsaeHistoryForElimination(player.idHistory);
                     console.log('Poomsae node deletion confirmed for:', player.student?.name);
                 }
             }
-            else if ('idSparringHistory' in player) {
+            else if (discipline === 'doi-khang') {
                 // player là SparringHistory
                 if (mode === 'winner') {
                     await createSparringWinner(player.idHistory, participants || 0);

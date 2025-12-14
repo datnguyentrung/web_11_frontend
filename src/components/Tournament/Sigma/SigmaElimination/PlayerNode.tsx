@@ -87,18 +87,19 @@ const PlayerNode: React.FC<PlayerNodeProps> = React.memo(({
                 nodeStatus={nodeStatus}
                 participants={participants}
                 onChooseWinner={onChooseWinner}
-                onDeleteNode={onDeleteNode}
+                // Nếu có quyền xóa VÀ có player thì truyền hàm, ngược lại truyền undefined
+                onDeleteNode={(canDelete && player) ? onDeleteNode : undefined}
                 content={content}
                 onRefresh={onRefresh}
             />
-            {canDelete && player && (
+            {/* {canDelete && player && (
                 <Delete
                     className="player-delete-icon"
                     onClick={handleDeleteClick}
                     size={16}
                     aria-label={`Xóa ${player.student.name || 'người chơi'}`}
                 />
-            )}
+            )} */}
         </div>
     );
 });
