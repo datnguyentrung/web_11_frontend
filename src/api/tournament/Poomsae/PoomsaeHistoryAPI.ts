@@ -64,15 +64,15 @@ export const deletePoomsaeHistoryForElimination = async (id: string) => {
 
 export const filterPoomsaeHistories = async (idTournament: string, idCombination: string, idAccount: string | null) => {
     try {
-        // const response = await axiosInstance.get(endpoints.poomsaeHistory.filter, {
-        //     params: {
-        //         idTournament,
-        //         idCombination,
-        //         idAccount
-        //     }
-        // });
-        // return response.data.data;
-        return filterPoomsaeHistoriesData;
+        const response = await axiosInstance.get(endpoints.poomsaeHistory.filter, {
+            params: {
+                idTournament,
+                idCombination,
+                idAccount
+            }
+        });
+        return response.data.data;
+        // return filterPoomsaeHistoriesData;
     } catch (error) {
         console.error('Error filtering poomsae histories:', error);
         throw error;
