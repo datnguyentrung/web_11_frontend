@@ -1,0 +1,86 @@
+/* Reset and base styles */
+* {
+  box-sizing: border-box;
+}
+
+.app {
+  min-height: 100vh;
+  position: relative;
+  background: linear-gradient(
+    135deg,
+    rgba(220, 38, 38, 0.02) 0%,
+    rgba(239, 68, 68, 0.01) 50%,
+    rgba(255, 255, 255, 1) 100%
+  );
+}
+
+.navbar-spacer {
+  height: 60px;
+}
+
+.app__main {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: 0;
+  padding: 0;
+}
+
+/* Responsive layout */
+@media (min-width: 1024px) {
+  .app__main {
+    flex-direction: row;
+    justify-content: center;
+    gap: 2rem;
+  }
+}
+
+@media (min-width: 1280px) {
+  .app__main {
+    gap: 3rem;
+  }
+}
+
+@media (min-width: 1440px) {
+  .app__main {
+    gap: 5rem;
+  }
+}
+
+/* Responsive navbar spacer */
+@media (min-width: 640px) {
+  .navbar-spacer {
+    height: 56px;
+  }
+}
+
+@media (min-width: 768px) {
+  .navbar-spacer {
+    height: 65px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .navbar-spacer {
+    height: 75px;
+  }
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Focus styles for accessibility */
+*:focus {
+  outline: 2px solid #DC2626;
+  outline-offset: 2px;
+}
+
+/* Selection styles */
+::selection {
+  background-color: rgba(220, 38, 38, 0.2);
+  color: #333333;
+}

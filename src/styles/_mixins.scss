@@ -1,0 +1,216 @@
+@use './variables' as *;
+
+// Flexbox mixins
+@mixin flex-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@mixin flex-between {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+@mixin flex-column {
+    display: flex;
+    flex-direction: column;
+}
+
+// Text mixins
+@mixin text-truncate {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+@mixin text-gradient($start-color, $end-color) {
+    background: linear-gradient(45deg, $start-color, $end-color);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+// Card mixins
+@mixin card-base {
+    background: $primary-white;
+    border-radius: $radius-lg;
+    box-shadow: $shadow-md;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@mixin card-hover {
+    transform: translateY(-2px);
+    box-shadow: $shadow-hover;
+}
+
+// Button mixins
+@mixin button-base {
+    border: none;
+    border-radius: $radius-md;
+    font-weight: $font-weight-medium;
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+    &:focus {
+        outline: none;
+        box-shadow: 0 0 0 3px rgba($primary-red, 0.2);
+    }
+}
+
+@mixin button-primary {
+    @include button-base;
+    background: linear-gradient(135deg, $primary-red, $secondary-red);
+    color: $primary-white;
+
+    &:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 8px 15px rgba($primary-red, 0.3);
+    }
+
+    &:active {
+        transform: translateY(0);
+    }
+}
+
+// Responsive mixins (Mobile-first)
+@mixin responsive($breakpoint) {
+    @if $breakpoint ==sm {
+        @media (min-width: $breakpoint-sm) {
+            @content;
+        }
+    }
+
+    @else if $breakpoint ==md {
+        @media (min-width: $breakpoint-md) {
+            @content;
+        }
+    }
+
+    @else if $breakpoint ==lg {
+        @media (min-width: $breakpoint-lg) {
+            @content;
+        }
+    }
+
+    @else if $breakpoint ==xl {
+        @media (min-width: $breakpoint-xl) {
+            @content;
+        }
+    }
+}
+
+// Mobile-only mixin
+@mixin mobile-only {
+    @media (max-width: #{$breakpoint-sm - 1px}) {
+        @content;
+    }
+}
+
+// Tablet and below
+@mixin tablet-down {
+    @media (max-width: #{$breakpoint-md - 1px}) {
+        @content;
+    }
+}
+
+// Tablet only
+@mixin tablet-only {
+    @media (min-width: $breakpoint-sm) and (max-width: #{$breakpoint-md - 1px}) {
+        @content;
+    }
+}
+
+// Desktop and above
+@mixin desktop-up {
+    @media (min-width: $breakpoint-lg) {
+        @content;
+    }
+}
+
+// Hide on mobile
+@mixin hide-mobile {
+    @include mobile-only {
+        display: none !important;
+    }
+}
+
+// Show only on mobile
+@mixin show-mobile-only {
+    display: none;
+
+    @include mobile-only {
+        display: block;
+    }
+}
+
+// Responsive font size
+@mixin responsive-font($mobile, $tablet, $desktop) {
+    font-size: $mobile;
+
+    @include responsive(sm) {
+        font-size: $tablet;
+    }
+
+    @include responsive(md) {
+        font-size: $desktop;
+    }
+}
+
+// Responsive spacing
+@mixin responsive-spacing($property, $mobile, $tablet, $desktop) {
+    #{$property}: $mobile;
+
+    @include responsive(sm) {
+        #{$property}: $tablet;
+    }
+
+    @include responsive(md) {
+        #{$property}: $desktop;
+    }
+}
+
+// Animation mixins
+@mixin slide-up($duration: 0.3s) {
+    animation: slide-up $duration ease-out;
+}
+
+@mixin fade-in($duration: 0.3s) {
+    animation: fade-in $duration ease-out;
+}
+
+// Keyframes
+@keyframes slide-up {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fade-in {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes pulse-red {
+
+    0%,
+    100% {
+        box-shadow: 0 0 0 0 rgba($primary-red, 0.7);
+    }
+
+    50% {
+        box-shadow: 0 0 0 10px rgba($primary-red, 0);
+    }
+}

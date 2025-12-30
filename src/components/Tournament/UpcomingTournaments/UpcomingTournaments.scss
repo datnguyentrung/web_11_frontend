@@ -1,0 +1,120 @@
+.upcoming-tournaments {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+
+    &__title {
+        color: #2563eb; // text-blue-600
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 1.25rem;
+        font-weight: 600;
+        margin: 0;
+    }
+
+    &__icon {
+        width: 1.25rem;
+        height: 1.25rem;
+    }
+
+    &__empty {
+        background-color: #f9fafb; // bg-gray-50
+        border-radius: 0.5rem;
+        padding: 2rem;
+        text-align: center;
+        color: #6b7280; // text-gray-500
+    }
+
+    &__list {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    &__card {
+        background: linear-gradient(135deg, #eff6ff, #e0e7ff); // from-blue-50 to-indigo-50
+        border-radius: 0.5rem;
+        padding: 1.5rem;
+        border: 1px solid #bfdbfe; // border-blue-200
+        transition: box-shadow 0.2s;
+
+        &:hover {
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+    }
+
+    &__content {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    &__header {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 0.5rem;
+    }
+
+    &__scope-badge {
+        display: inline-block;
+        padding: 0.25rem 0.75rem;
+        background-color: #3b82f6; // bg-blue-500
+        color: white;
+        border-radius: 9999px;
+        font-size: 0.875rem;
+    }
+
+    &__countdown {
+        text-align: right;
+        color: #2563eb; // text-blue-600
+        font-weight: 500;
+    }
+
+    &__name {
+        color: #111827; // text-gray-900
+        margin: 0;
+        font-size: 1.125rem;
+        font-weight: 500;
+    }
+
+    &__info {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        color: #4b5563; // text-gray-600
+    }
+
+    &__date,
+    &__location {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    &__info-icon {
+        width: 1rem;
+        height: 1rem;
+
+        &--blue {
+            color: #3b82f6; // text-blue-500
+        }
+    }
+
+    &__button {
+        width: 100%;
+        background-color: #2563eb; // bg-blue-600
+        color: white;
+        padding: 0.5rem 1rem;
+        border-radius: 0.5rem;
+        border: none;
+        cursor: pointer;
+        transition: background-color 0.2s;
+        font-weight: 500;
+
+        &:hover {
+            background-color: #1d4ed8; // hover:bg-blue-700
+        }
+    }
+}

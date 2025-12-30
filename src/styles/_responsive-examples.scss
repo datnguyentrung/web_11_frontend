@@ -1,0 +1,465 @@
+// ==========================================
+// RESPONSIVE DESIGN EXAMPLES
+// ==========================================
+// File này chứa các ví dụ về cách implement responsive design
+
+// ==========================================
+// EXAMPLE 1: Responsive Component với Mobile-First
+// ==========================================
+
+@use '../styles/variables' as *;
+@use '../styles/mixins' as *;
+
+.example-component {
+    // Mobile styles (default - base styles)
+    padding: $spacing-sm;
+    font-size: 0.875rem;
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-sm;
+
+    // Small devices and up (≥ 640px)
+    @include responsive(sm) {
+        padding: $spacing-md;
+        font-size: 1rem;
+        gap: $spacing-md;
+    }
+
+    // Medium devices and up (≥ 768px)
+    @include responsive(md) {
+        padding: $spacing-lg;
+        font-size: 1.125rem;
+        flex-direction: row;
+        gap: $spacing-lg;
+    }
+
+    // Large devices and up (≥ 1024px)
+    @include responsive(lg) {
+        padding: $spacing-xl;
+        gap: $spacing-xl;
+    }
+
+    // Extra large devices and up (≥ 1280px)
+    @include responsive(xl) {
+        padding: $spacing-xxl;
+    }
+}
+
+// ==========================================
+// EXAMPLE 2: Mobile-Only Styling
+// ==========================================
+
+.mobile-menu {
+    display: block;
+
+    // Hide on tablet and larger
+    @include mobile-only {
+        display: flex;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        background: $primary-white;
+        z-index: 1000;
+    }
+
+    // Desktop menu
+    @include desktop-up {
+        display: none;
+    }
+}
+
+// ==========================================
+// EXAMPLE 3: Responsive Grid Layout
+// ==========================================
+
+.product-grid {
+    display: grid;
+    gap: $spacing-md;
+
+    // Mobile: 1 column
+    grid-template-columns: 1fr;
+
+    // Tablet small: 2 columns
+    @include responsive(sm) {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    // Tablet: 3 columns
+    @include responsive(md) {
+        grid-template-columns: repeat(3, 1fr);
+        gap: $spacing-lg;
+    }
+
+    // Desktop: 4 columns
+    @include responsive(lg) {
+        grid-template-columns: repeat(4, 1fr);
+        gap: $spacing-xl;
+    }
+}
+
+// ==========================================
+// EXAMPLE 4: Responsive Typography
+// ==========================================
+
+.heading-responsive {
+    // Sử dụng mixin responsive-font
+    @include responsive-font(1.5rem, 2rem, 3rem);
+    font-weight: $font-weight-bold;
+    line-height: 1.2;
+
+    // Hoặc viết manual
+    // font-size: 1.5rem;  // Mobile
+    // @include responsive(sm) {
+    //     font-size: 2rem;  // Tablet
+    // }
+    // @include responsive(md) {
+    //     font-size: 3rem;  // Desktop
+    // }
+}
+
+// ==========================================
+// EXAMPLE 5: Responsive Card với Hover
+// ==========================================
+
+.card-responsive {
+    @include card-base;
+    padding: $spacing-sm;
+
+    @include responsive(sm) {
+        padding: $spacing-md;
+    }
+
+    @include responsive(md) {
+        padding: $spacing-lg;
+    }
+
+    // Disable hover effect on touch devices
+    @media (hover: hover) and (pointer: fine) {
+        &:hover {
+            @include card-hover;
+        }
+    }
+
+    // Touch-friendly on mobile
+    @media (hover: none) and (pointer: coarse) {
+        &:active {
+            @include card-hover;
+        }
+    }
+}
+
+// ==========================================
+// EXAMPLE 6: Responsive Table/List
+// ==========================================
+
+.data-table {
+    width: 100%;
+
+    // Mobile: Stacked layout
+    @include mobile-only {
+        display: block;
+
+        tr {
+            display: flex;
+            flex-direction: column;
+            border: 1px solid $border-gray;
+            margin-bottom: $spacing-md;
+            border-radius: $radius-md;
+            padding: $spacing-md;
+        }
+
+        td {
+            display: flex;
+            justify-content: space-between;
+            padding: $spacing-xs 0;
+
+            &::before {
+                content: attr(data-label);
+                font-weight: $font-weight-bold;
+                color: $medium-gray;
+            }
+        }
+    }
+
+    // Tablet and desktop: Normal table
+    @include responsive(md) {
+        display: table;
+
+        tr {
+            display: table-row;
+        }
+
+        td {
+            display: table-cell;
+            padding: $spacing-md;
+
+            &::before {
+                content: none;
+            }
+        }
+    }
+}
+
+// ==========================================
+// EXAMPLE 7: Responsive Spacing
+// ==========================================
+
+.section-spacing {
+    // Sử dụng mixin responsive-spacing
+    @include responsive-spacing(margin-bottom, $spacing-lg, $spacing-xl, $spacing-xxl);
+
+    // Hoặc
+    @include responsive-spacing(padding, $spacing-md, $spacing-lg, $spacing-xl);
+}
+
+// ==========================================
+// EXAMPLE 8: Sidebar Layout Responsive
+// ==========================================
+
+.layout-with-sidebar {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-md;
+
+    @include responsive(lg) {
+        flex-direction: row;
+        gap: $spacing-xl;
+    }
+
+    .sidebar {
+        width: 100%;
+
+        @include responsive(lg) {
+            width: 300px;
+            flex-shrink: 0;
+        }
+    }
+
+    .main-content {
+        flex: 1;
+    }
+}
+
+// ==========================================
+// EXAMPLE 9: Responsive Navigation
+// ==========================================
+
+.nav-responsive {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-xs;
+
+    @include responsive(md) {
+        flex-direction: row;
+        gap: $spacing-lg;
+    }
+
+    &__link {
+        padding: $spacing-sm;
+        font-size: 0.875rem;
+
+        // Hide text on mobile, show icon only
+        @include mobile-only {
+            font-size: 0;
+
+            .icon {
+                font-size: 1.25rem;
+            }
+        }
+
+        @include responsive(sm) {
+            padding: $spacing-sm $spacing-md;
+            font-size: 1rem;
+        }
+    }
+}
+
+// ==========================================
+// EXAMPLE 10: Responsive Image
+// ==========================================
+
+.responsive-image-container {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    border-radius: $radius-md;
+
+    // Mobile: 4:3 aspect ratio
+    aspect-ratio: 4 / 3;
+
+    @include responsive(md) {
+        // Desktop: 16:9 aspect ratio
+        aspect-ratio: 16 / 9;
+    }
+
+    img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+    }
+}
+
+// ==========================================
+// EXAMPLE 11: Responsive Form
+// ==========================================
+
+.form-responsive {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-md;
+
+    .form-group {
+        display: flex;
+        flex-direction: column;
+        gap: $spacing-xs;
+
+        @include responsive(md) {
+            flex-direction: row;
+            align-items: center;
+            gap: $spacing-md;
+        }
+
+        label {
+            min-width: 120px;
+            font-weight: $font-weight-medium;
+        }
+
+        input {
+            padding: $spacing-sm $spacing-md;
+            font-size: 0.875rem;
+
+            @include responsive(sm) {
+                padding: $spacing-md;
+                font-size: 1rem;
+            }
+        }
+    }
+}
+
+// ==========================================
+// EXAMPLE 12: Conditional Content Display
+// ==========================================
+
+.content-switcher {
+    .mobile-content {
+        @include show-mobile-only;
+    }
+
+    .desktop-content {
+        display: none;
+
+        @include responsive(md) {
+            display: block;
+        }
+    }
+}
+
+// ==========================================
+// EXAMPLE 13: Responsive Modal/Dialog
+// ==========================================
+
+.modal-responsive {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: $z-modal;
+
+    &__content {
+        // Mobile: Full screen
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: $primary-white;
+        padding: $spacing-md;
+        overflow-y: auto;
+
+        // Desktop: Centered with max-width
+        @include responsive(md) {
+            position: relative;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            max-width: 600px;
+            max-height: 80vh;
+            border-radius: $radius-lg;
+            box-shadow: $shadow-lg;
+        }
+    }
+}
+
+// ==========================================
+// EXAMPLE 14: Responsive Button Group
+// ==========================================
+
+.button-group-responsive {
+    display: flex;
+    flex-direction: column;
+    gap: $spacing-sm;
+
+    @include responsive(sm) {
+        flex-direction: row;
+    }
+
+    button {
+        @include button-base;
+        padding: $spacing-sm $spacing-md;
+
+        // Mobile: Full width buttons
+        @include mobile-only {
+            width: 100%;
+        }
+
+        @include responsive(sm) {
+            flex: 1;
+        }
+    }
+}
+
+// ==========================================
+// EXAMPLE 15: Responsive Stats Cards
+// ==========================================
+
+.stats-responsive {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: $spacing-sm;
+
+    @include responsive(sm) {
+        gap: $spacing-md;
+    }
+
+    @include responsive(md) {
+        grid-template-columns: repeat(4, 1fr);
+        gap: $spacing-lg;
+    }
+
+    .stat-card {
+        @include card-base;
+        padding: $spacing-sm;
+        text-align: center;
+
+        @include responsive(sm) {
+            padding: $spacing-md;
+        }
+
+        @include responsive(md) {
+            padding: $spacing-lg;
+        }
+
+        &__value {
+            @include responsive-font(1.25rem, 1.5rem, 2rem);
+            font-weight: $font-weight-bold;
+        }
+
+        &__label {
+            @include responsive-font(0.75rem, 0.875rem, 1rem);
+            color: $medium-gray;
+        }
+    }
+}

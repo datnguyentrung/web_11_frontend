@@ -1,0 +1,132 @@
+.ongoing-tournaments {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+
+    &__title {
+        color: #dc2626; // text-red-600
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-size: 1.25rem;
+        font-weight: 600;
+        margin: 0;
+    }
+
+    &__icon {
+        width: 1.25rem;
+        height: 1.25rem;
+    }
+
+    &__empty {
+        background-color: #f9fafb; // bg-gray-50
+        border-radius: 0.5rem;
+        padding: 2rem;
+        text-align: center;
+        color: #6b7280; // text-gray-500
+    }
+
+    &__list {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    &__card {
+        background: linear-gradient(to right, #fef2f2, #fff7ed); // from-red-50 to-orange-50
+        border-radius: 0.5rem;
+        padding: 1.5rem;
+        border-left: 4px solid #ef4444; // border-red-500
+        transition: box-shadow 0.2s;
+
+        &:hover {
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+    }
+
+    &__content {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: 1rem;
+    }
+
+    &__main {
+        flex: 1;
+    }
+
+    &__badges {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-bottom: 0.5rem;
+    }
+
+    &__live-badge {
+        display: inline-block;
+        padding: 0.25rem 0.75rem;
+        background-color: #ef4444; // bg-red-500
+        color: white;
+        border-radius: 9999px;
+        font-size: 0.875rem;
+    }
+
+    &__scope-badge {
+        display: inline-block;
+        padding: 0.25rem 0.75rem;
+        background-color: white;
+        color: #374151; // text-gray-700
+        border-radius: 9999px;
+        font-size: 0.875rem;
+    }
+
+    &__name {
+        color: #111827; // text-gray-900
+        margin: 0 0 0.75rem 0;
+        font-size: 1.125rem;
+        font-weight: 500;
+    }
+
+    &__info {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        color: #4b5563; // text-gray-600
+    }
+
+    &__date,
+    &__location {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    &__info-icon {
+        width: 1rem;
+        height: 1rem;
+    }
+
+    &__indicator {
+        flex-shrink: 0;
+    }
+
+    &__pulse {
+        width: 0.75rem;
+        height: 0.75rem;
+        background-color: #ef4444; // bg-red-500
+        border-radius: 50%;
+        animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    }
+}
+
+@keyframes pulse {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.5;
+    }
+}

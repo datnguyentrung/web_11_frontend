@@ -1,0 +1,363 @@
+@use '../../styles/variables' as *;
+@use '../../styles/mixins' as *;
+
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: $z-navbar;
+    background: linear-gradient(135deg, $primary-red 0%, $secondary-red 100%);
+    box-shadow: $shadow-lg;
+    backdrop-filter: blur(10px);
+
+    &__container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: $spacing-sm $spacing-lg;
+        @include flex-between;
+
+        @include responsive(sm) {
+            padding: $spacing-md $spacing-xl;
+        }
+    }
+
+    &__logo {
+        @include flex-center;
+        gap: $spacing-sm;
+        color: $primary-white;
+
+        &-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 2px solid $primary-white;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            flex-shrink: 0;
+
+            img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+                display: block;
+            }
+
+            @include responsive(sm) {
+                width: 40px;
+                height: 40px;
+            }
+
+            @include responsive(md) {
+                width: 45px;
+                height: 45px;
+            }
+        }
+
+        &-text {
+            font-family: $font-primary;
+            font-size: 1rem;
+            font-weight: $font-weight-bold;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+
+            @include mobile-only {
+                display: none;
+            }
+
+            @include responsive(sm) {
+                display: inline;
+                font-size: 1.25rem;
+            }
+
+            @include responsive(md) {
+                font-size: 1.5rem;
+            }
+        }
+    }
+
+    &__title {
+        flex: 1;
+        text-align: center;
+        color: $primary-white;
+        font-family: $font-primary;
+        font-size: 0.85rem;
+        font-weight: $font-weight-bold;
+        margin: 0;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        padding: 0 $spacing-xs;
+        line-height: 1.2;
+
+        @include responsive(sm) {
+            font-size: 1.1rem;
+            padding: 0 $spacing-sm;
+        }
+
+        @include responsive(md) {
+            font-size: 1.3rem;
+            padding: 0 $spacing-md;
+        }
+
+        @include responsive(lg) {
+            font-size: 1.5rem;
+        }
+
+        @include mobile-only {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+    }
+
+    &__actions {
+        @include flex-center;
+        gap: $spacing-xs;
+        margin-right: 0;
+
+        @include responsive(sm) {
+            gap: $spacing-sm;
+        }
+
+        @include responsive(md) {
+            gap: $spacing-md;
+            margin-right: -120px;
+        }
+    }
+
+    &__nav {
+        @include flex-center;
+        gap: $spacing-xs;
+
+        @include responsive(sm) {
+            gap: $spacing-sm;
+        }
+
+        @include responsive(md) {
+            gap: $spacing-md;
+        }
+    }
+
+    &__nav-link {
+        @include flex-center;
+        gap: $spacing-xs;
+        padding: $spacing-xs $spacing-sm;
+        color: $primary-white;
+        text-decoration: none;
+        font-size: 0.75rem;
+        font-weight: $font-weight-medium;
+        border-radius: $radius-sm;
+        transition: all 0.3s ease;
+        background: rgba($primary-white, 0.1);
+        backdrop-filter: blur(5px);
+        border: 1px solid rgba($primary-white, 0.2);
+        white-space: nowrap;
+
+        span {
+            font-size: 0.9rem;
+
+            @include responsive(sm) {
+                font-size: 1rem;
+            }
+
+            @include responsive(md) {
+                font-size: 1.1rem;
+            }
+        }
+
+        // Hide text on mobile, show only icon
+        @include mobile-only {
+            padding: $spacing-xs;
+            font-size: 0;
+            min-width: 32px;
+            justify-content: center;
+
+            span {
+                font-size: 1.1rem;
+            }
+        }
+
+        @include responsive(sm) {
+            font-size: 0.85rem;
+            padding: $spacing-sm $spacing-md;
+            border-radius: $radius-md;
+        }
+
+        @include responsive(md) {
+            font-size: 0.9rem;
+        }
+
+        @include responsive(lg) {
+            font-size: 1rem;
+            padding: $spacing-sm $spacing-lg;
+        }
+
+        &:hover {
+            background: rgba($primary-white, 0.2);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        &--active {
+            background: $primary-white;
+            color: $primary-red;
+            font-weight: $font-weight-bold;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+
+            &:hover {
+                background: $primary-white;
+                transform: translateY(-2px);
+            }
+        }
+    }
+
+    &__nav-dropdown {
+        position: relative;
+    }
+
+    &__nav-item {
+        @include flex-center;
+        gap: $spacing-xs;
+        padding: $spacing-xs $spacing-sm;
+        color: $primary-white;
+        text-decoration: none;
+        font-size: 0.75rem;
+        font-weight: $font-weight-medium;
+        border-radius: $radius-sm;
+        transition: all 0.3s ease;
+        background: rgba($primary-white, 0.1);
+        backdrop-filter: blur(5px);
+        border: 1px solid rgba($primary-white, 0.2);
+        white-space: nowrap;
+        cursor: pointer;
+
+        @include mobile-only {
+            padding: $spacing-xs;
+            font-size: 0;
+            min-width: 32px;
+            justify-content: center;
+        }
+
+        @include responsive(sm) {
+            font-size: 0.85rem;
+            padding: $spacing-sm $spacing-md;
+            border-radius: $radius-md;
+        }
+
+        @include responsive(md) {
+            font-size: 0.9rem;
+        }
+
+        @include responsive(lg) {
+            font-size: 1rem;
+            padding: $spacing-sm $spacing-lg;
+        }
+
+        &:hover {
+            background: rgba($primary-white, 0.2);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        &.active {
+            background: $primary-white;
+            color: $primary-red;
+            font-weight: $font-weight-bold;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+
+            &:hover {
+                background: $primary-white;
+                transform: translateY(-2px);
+            }
+        }
+    }
+
+    &__nav-dropdown {
+        .dropdown-menu {
+            position: absolute;
+            top: calc(100% + 8px);
+            left: 50%;
+            transform: translateX(-50%) translateY(-10px);
+            background: $primary-white;
+            border-radius: $radius-md;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+            min-width: 220px;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 1000;
+            overflow: hidden;
+
+            @include mobile-only {
+                min-width: 180px;
+                left: 0;
+                transform: translateX(0) translateY(-10px);
+            }
+        }
+
+        &:hover .dropdown-menu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(-50%) translateY(0);
+
+            @include mobile-only {
+                transform: translateX(0) translateY(0);
+            }
+        }
+    }
+
+    .dropdown-item {
+        display: block;
+        padding: $spacing-sm $spacing-md;
+        color: #333;
+        text-decoration: none;
+        font-size: 0.85rem;
+        font-weight: $font-weight-medium;
+        transition: all 0.2s ease;
+        border-left: 3px solid transparent;
+
+        @include responsive(sm) {
+            padding: $spacing-sm $spacing-lg;
+            font-size: 0.9rem;
+        }
+
+        @include responsive(md) {
+            font-size: 0.95rem;
+        }
+
+        &:hover {
+            background: rgba($primary-red, 0.05);
+            border-left-color: $primary-red;
+            padding-left: calc($spacing-md + 4px);
+
+            @include responsive(sm) {
+                padding-left: calc($spacing-lg + 4px);
+            }
+        }
+
+        &.active {
+            background: rgba($primary-red, 0.1);
+            border-left-color: $primary-red;
+            font-weight: $font-weight-bold;
+            color: $primary-red;
+        }
+
+        &:not(:last-child) {
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+        }
+    }
+}
+
+.navbar-spacer {
+    height: 48px;
+
+    @include responsive(sm) {
+        height: 56px;
+    }
+
+    @include responsive(md) {
+        height: 65px;
+    }
+
+    @include responsive(lg) {
+        height: 75px;
+    }
+}

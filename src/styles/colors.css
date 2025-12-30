@@ -1,0 +1,192 @@
+:root {
+  /* Green Colors */
+  --green-50: #f0fdf4;
+  --green-100: #dcfce7;
+  --green-200: #b9f8cf;
+  --green-300: #7bf1a8;
+  --green-400: #05df72;
+  --green-500: #00c950;
+  --green-600: #00a63e;
+  --green-700: #008236;
+  --green-800: #016630;
+  --green-900: #0d542b;
+  --green-950: #032e15;
+
+  /* Red Colors */
+  --red-50: #fef2f2;
+  --red-100: #ffe2e2;
+  --red-200: #ffc9c9;
+  --red-300: #ffa2a2;
+  --red-400: #ff6467;
+  --red-500: #fb2c36;
+  --red-600: #e7000b;
+  --red-700: #c10007;
+  --red-800: #9f0712;
+  --red-900: #82181a;
+  --red-950: #460809;
+
+  /* Orange Colors */
+  --orange-50: #fff7ed;
+  --orange-100: #ffedd4;
+  --orange-200: #ffd6a7;
+  --orange-300: #ffb86a;
+  --orange-400: #ff8904;
+  --orange-500: #ff6900;
+  --orange-600: #f54900;
+  --orange-700: #ca3500;
+  --orange-800: #9f2d00;
+  --orange-900: #7e2a0c;
+  --orange-950: #441306;
+
+  /* Gray Colors */
+  --gray-50: #f9fafb;
+  --gray-100: #f3f4f6;
+  --gray-200: #e5e7eb;
+  --gray-300: #d1d5dc;
+  --gray-400: #99a1af;
+  --gray-500: #6a7282;
+  --gray-600: #4a5565;
+  --gray-700: #364153;
+  --gray-800: #1e2939;
+  --gray-900: #101828;
+  --gray-950: #030712;
+
+  /* Pink Colors */
+  --pink-50: #fdf2f8;
+  --pink-100: #fce7f3;
+  --pink-200: #fccee8;
+  --pink-300: #fda5d5;
+  --pink-400: #fb64b6;
+  --pink-500: #f6339a;
+  --pink-600: #e60076;
+  --pink-700: #c6005c;
+  --pink-800: #a3004c;
+  --pink-900: #861043;
+  --pink-950: #510424;
+
+  /* Blue Colors */
+  --blue-50: #eff6ff;
+  --blue-100: #dbeafe;
+  --blue-200: #bedbff;
+  --blue-300: #8ec5ff;
+  --blue-400: #51a2ff;
+  --blue-500: #2b7fff;
+  --blue-600: #155dfc;
+  --blue-700: #1447e6;
+  --blue-800: #193cb8;
+  --blue-900: #1c398e;
+  --blue-950: #162456;
+
+  /* Purple Colors */
+  --purple-50: #faf5ff;
+  --purple-100: #f3e8ff;
+  --purple-200: #e9d4ff;
+  --purple-300: #dab2ff;
+  --purple-400: #c27aff;
+  --purple-500: #ad46ff;
+  --purple-600: #9810fa;
+  --purple-700: #8200db;
+  --purple-800: #6e11b0;
+  --purple-900: #59168b;
+  --purple-950: #3c0366;
+
+  /* Yellow Colors */
+  --yellow-50: #fefce8;
+  --yellow-100: #fef9c2;
+  --yellow-200: #fff085;
+  --yellow-300: #ffdf20;
+  --yellow-400: #fdc700;
+  --yellow-500: #f0b100;
+  --yellow-600: #d08700;
+  --yellow-700: #a65f00;
+  --yellow-800: #894b00;
+  --yellow-900: #733e0a;
+  --yellow-950: #432004;
+
+  /* Neon Gradient Colors */
+  
+  /* Purple to Pink Series */
+  --neon-purple-pink-1: linear-gradient(135deg, #8A2BE2, #FF69B4);
+  --neon-purple-pink-2: linear-gradient(135deg, #9945FF, #FF1CF7);
+  --neon-purple-pink-3: linear-gradient(135deg, #A855F7, #EC4899);
+  --neon-purple-pink-4: linear-gradient(135deg, #8B5CF6, #F472B6);
+
+  /* Fire & Energy */
+  --neon-fire-1: linear-gradient(135deg, #FF6B35, #F7931E);
+  --neon-fire-2: linear-gradient(135deg, #FF4081, #FF9800);
+  --neon-fire-3: linear-gradient(135deg, #E91E63, #FF5722);
+  --neon-fire-4: linear-gradient(135deg, #F44336, #FF9800);
+
+  /* Ocean & Sky */
+  --neon-ocean-1: linear-gradient(135deg, #00D4FF, #5B73FF);
+  --neon-ocean-2: linear-gradient(135deg, #1E90FF, #00BFFF);
+  --neon-ocean-3: linear-gradient(135deg, #00C9FF, #92FE9D);
+  --neon-ocean-4: linear-gradient(135deg, #4FACFE, #00F2FE);
+
+  /* Electric & Cyber */
+  --neon-electric-1: linear-gradient(135deg, #FAFF00, #00FF41);
+  --neon-electric-2: linear-gradient(135deg, #39FF14, #FFFF00);
+  --neon-electric-3: linear-gradient(135deg, #00FFFF, #FF00FF);
+  --neon-electric-4: linear-gradient(135deg, #FF073A, #00FFD1);
+
+  /* Rainbow Spectrum */
+  --neon-rainbow-1: linear-gradient(135deg, #FF0080, #7928CA);
+  --neon-rainbow-2: linear-gradient(135deg, #FF6B6B, #4ECDC4);
+  --neon-rainbow-3: linear-gradient(135deg, #A8E6CF, #FFD93D);
+  --neon-rainbow-4: linear-gradient(135deg, #FF8A65, #64B5F6);
+
+  /* High Contrast Neon */
+  --neon-contrast-1: linear-gradient(135deg, #00FF00, #FF0080);
+  --neon-contrast-2: linear-gradient(135deg, #FF073A, #39FF14);
+  --neon-contrast-3: linear-gradient(135deg, #00D4FF, #FF6B35);
+  --neon-contrast-4: linear-gradient(135deg, #FFFF00, #FF1493);
+
+  /* Dark Theme Neon */
+  --neon-dark-1: linear-gradient(135deg, #6A0572, #AB83A1);
+  --neon-dark-2: linear-gradient(135deg, #0F3460, #16213E);
+  --neon-dark-3: linear-gradient(135deg, #533483, #7209B7);
+  --neon-dark-4: linear-gradient(135deg, #2D1B69, #0F0C29);
+
+  /* Vibrant & Playful */
+  --neon-vibrant-1: linear-gradient(135deg, #FF9A9E, #FECFEF);
+  --neon-vibrant-2: linear-gradient(135deg, #A8EDEA, #FED6E3);
+  --neon-vibrant-3: linear-gradient(135deg, #FFE259, #FFA751);
+  --neon-vibrant-4: linear-gradient(135deg, #667EEA, #764BA2);
+
+  /* Red Black Neon Series */
+  --neon-red-black-1: linear-gradient(135deg, #FF0000, #000000);
+  --neon-red-black-2: linear-gradient(135deg, #FF073A, #1A0000);
+  --neon-red-black-3: linear-gradient(135deg, #DC143C, #2B0000);
+  --neon-red-black-4: linear-gradient(135deg, #FF1744, #0D0D0D);
+  --neon-red-black-5: linear-gradient(135deg, #E50000, #1C1C1C);
+  --neon-red-black-6: linear-gradient(135deg, #FF4444, #111111);
+  --neon-red-black-7: linear-gradient(135deg, #CC0000, #050505);
+  --neon-red-black-8: linear-gradient(135deg, #FF6666, #1F1F1F);
+
+  /* Dark Red Neon */
+  --neon-dark-red-1: linear-gradient(135deg, #8B0000, #2F0000);
+  --neon-dark-red-2: linear-gradient(135deg, #B22222, #4A0000);
+  --neon-dark-red-3: linear-gradient(135deg, #A52A2A, #3D0000);
+  --neon-dark-red-4: linear-gradient(135deg, #800000, #1A0000);
+
+  /* Crimson Black Neon */
+  --neon-crimson-black-1: linear-gradient(135deg, #DC143C, #000000);
+  --neon-crimson-black-2: linear-gradient(135deg, #B22222, #0A0A0A);
+  --neon-crimson-black-3: linear-gradient(135deg, #CD5C5C, #1C1C1C);
+  --neon-crimson-black-4: linear-gradient(135deg, #F08080, #262626);
+
+  /* Individual Neon Colors */
+  --neon-blue-violet: #8A2BE2;
+  --neon-hot-pink: #FF69B4;
+  --neon-vivid-purple: #9945FF;
+  --neon-pink: #FF1CF7;
+  --neon-cyan: #00D4FF;
+  --neon-electric-green: #39FF14;
+  --neon-electric-yellow: #FAFF00;
+  --neon-electric-red: #FF073A;
+  --neon-magenta: #FF00FF;
+  --neon-pure-red: #FF0000;
+  --neon-crimson: #DC143C;
+  --neon-dark-red: #8B0000;
+  --neon-fire-red: #FF1744;
+}
